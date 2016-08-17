@@ -1,2 +1,4 @@
 #!/bin/bash -eu
 set -o pipefail
+
+do/build-c

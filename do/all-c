@@ -2,3 +2,4 @@
 set -o pipefail
 
 do/build-c
+do/acceptance-c

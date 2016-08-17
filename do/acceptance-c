@@ -14,7 +14,7 @@ if [[ $DOCKER_IMAGE != ${DOCKER_CONTAINER-} ]]; then
 
     "$source_dir/do/create-user" "$DOCKER_IMAGE"
 
-    output_dir="${source_dir}/acceptance/c"
+    output_dir="${source_dir}/acceptance-test/c"
     if [[ -e "$output_dir" ]]; then
         echo rm -rf "$output_dir"
         rm -rf "$output_dir"
@@ -38,4 +38,19 @@ if [[ $DOCKER_IMAGE != ${DOCKER_CONTAINER-} ]]; then
     exit $?
 fi
 
-make acceptance-test
+if [[ -t 1 ]]; then
+    if make acceptance-test; then
+        echo -e "\e[92;1m   A_A
+ =(o.o)=    ,
+ (  _  )--'
+  !! !!      SUCCESS!\e[0m"
+    else
+        echo -e "\e[91;1m   A_A
+ =(x.x)=    ,
+ (  _  )--'
+  !! !!      FAIL.\e[0m"
+        exit 1
+    fi
+else
+    make acceptance-test
+fi

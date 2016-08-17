@@ -1,0 +1,17 @@
+#!/bin/bash -eu
+set -o pipefail
+
+DOCKER_IMAGE=${1-kata-rnc/build-c}
+source_dir="$(dirname "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)")"
+
+docker run -it \
+       --env DOCKER_CONTAINER=$DOCKER_IMAGE \
+       --env "source_dir=$source_dir" \
+       --rm \
+       --sig-proxy=true \
+       --security-opt seccomp:unconfined \
+       --volume=/var/run/docker.sock:/var/run/docker.sock:rw \
+       --volume="$source_dir:$source_dir:rw" \
+       --workdir="$source_dir" \
+       $DOCKER_IMAGE-user \
+       /bin/bash

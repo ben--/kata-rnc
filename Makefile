@@ -3,6 +3,7 @@ ci: unit-test all acceptance-test
 
 LIB=build/c/librnc.a
 
+CFLAGS=-Wall -Wextra -Werror
 CPPFLAGS=-Isrc/c
 
 

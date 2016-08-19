@@ -1,7 +1,8 @@
 .PHONY: ci
 ci: unit-test all acceptance-test
 
-LIB=build/c/librnc.a
+LIBDIR=build/c
+LIB=$(LIBDIR)/librnc.a
 
 CFLAGS=-Wall -Wextra -Werror
 CPPFLAGS=-Isrc/c
@@ -18,8 +19,8 @@ $(LIB): $(OBJS)
 acceptance-test: acceptance-test/c/runtest
 	$<
 
-acceptance-test/c/runtest: acceptance-test/c/runtest.o build/c/librnc.a
-	$(CC) $(LDFLAGS) -Lbuild/c $< -lrnc -o $@
+acceptance-test/c/runtest: acceptance-test/c/runtest.o $(LIB)
+	$(CC) $(LDFLAGS) -L$(LIBDIR) $< -lrnc -o $@
 
 acceptance-test/c/%.o: test/acceptance/%.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@

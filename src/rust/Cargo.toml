@@ -3,4 +3,7 @@ name = "rnc"
 version = "0.1.0"
 authors = ["ben"]
 
+[lib]
+crate-type = ["staticlib"]
+
 [dependencies]

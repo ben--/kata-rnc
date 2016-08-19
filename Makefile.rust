@@ -1,0 +1,14 @@
+LIB=build/rust/librnc.a
+
+CFLAGS=-Wall -Wextra -Werror
+CPPFLAGS=-Isrc/c
+
+.PHONY: acceptance-test
+acceptance-test: acceptance-test/rust/runtest
+	$<
+
+acceptance-test/rust/runtest: acceptance-test/rust/runtest.o build/rust/librnc.a
+	$(CC) $(LDFLAGS) -Lbuild/rust/debug $< -lrnc -o $@
+
+acceptance-test/rust/%.o: test/acceptance/%.c
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@

@@ -1,12 +1,12 @@
 LIBDIR=build/rust/debug
-LIB=$(LIBDIR)/librnc.a
+LIB=$(LIBDIR)/librnc.so
 
 CFLAGS=-Wall -Wextra -Werror
 CPPFLAGS=-Isrc/c
 
 .PHONY: acceptance-test
 acceptance-test: acceptance-test/rust/runtest
-	$<
+	LD_LIBRARY_PATH=$(LIBDIR) $<
 
 acceptance-test/rust/runtest: acceptance-test/rust/runtest.o $(LIB)
 	$(CC) $(LDFLAGS) -L$(LIBDIR) $< -lrnc -o $@

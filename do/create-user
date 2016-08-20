@@ -71,7 +71,7 @@ FROM $root_docker
 
 RUN getent group $group && groupdel $group || true
 RUN $(upsert_group $gid $group)
-RUN useradd $user --uid $uid --gid $gid
+RUN useradd $user --uid $uid --gid $gid --home $HOME
 
 ${docker_in_docker-}
 

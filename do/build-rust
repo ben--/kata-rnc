@@ -40,6 +40,7 @@ if [[ $DOCKER_IMAGE != ${DOCKER_CONTAINER-} ]]; then
            --env "source_dir=$source_dir" \
            --rm \
            --sig-proxy=true \
+           --volume="$HOME/.cargo:$HOME/.cargo:rw" \
            --volume="$source_dir:$source_dir:rw" \
            --workdir="$source_dir" \
            $DOCKER_IMAGE-user \

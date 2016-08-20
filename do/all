@@ -2,3 +2,4 @@
 set -o pipefail
 
 do/all-c
+do/all-rust

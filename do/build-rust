@@ -19,25 +19,16 @@ if [[ $DOCKER_IMAGE != ${DOCKER_CONTAINER-} ]]; then
         echo rm -rf "$output_dir"
         rm -rf "$output_dir"
     fi
-    if [[ ! -d "$(dirname "$output_dir")" ]]; then
-        mkdir -p "$(dirname "$output_dir")"
-    fi
-
-    tmp_output_dir="${source_dir}/src/rust/target"
-    if [[ -e "$tmp_output_dir" ]]; then
-        echo rm -rf "$tmp_output_dir"
-        rm -rf "$tmp_output_dir"
-    fi
-    mkdir -p "$tmp_output_dir"
+    mkdir -p "$output_dir"
 
     tty=
     if [[ -t 1 ]]; then
         tty=-t
     fi
-    set +e
     docker run $tty \
            --env DOCKER_CONTAINER=$DOCKER_IMAGE \
            --env "source_dir=$source_dir" \
+           --env "output_dir=$output_dir" \
            --rm \
            --sig-proxy=true \
            --volume="$HOME/.cargo:$HOME/.cargo:rw" \
@@ -45,12 +36,9 @@ if [[ $DOCKER_IMAGE != ${DOCKER_CONTAINER-} ]]; then
            --workdir="$source_dir" \
            $DOCKER_IMAGE-user \
            "$source_dir/do/build-rust"
-    RETCODE=$?
-
-    mv "$tmp_output_dir" "$output_dir"
-
-    exit "$RETCODE"
+    exit $?
 fi
 
 cd src/rust
+export CARGO_TARGET_DIR="$output_dir"
 cargo build

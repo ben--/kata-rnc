@@ -39,6 +39,10 @@ if [[ $DOCKER_IMAGE != ${DOCKER_CONTAINER-} ]]; then
     exit $?
 fi
 
+if [[ ! -e "$HOME/.cargo/registry" ]]; then
+    export CARGO_HOME=/tmp/.cargo
+fi
+
 cd src/rust
 export CARGO_TARGET_DIR="$output_dir"
 cargo build

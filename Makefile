@@ -7,7 +7,7 @@ LIB=$(LIBDIR)/librnc.so
 CFLAGS=-Wall -Wextra -Werror -fpic
 CPPFLAGS=-Isrc/c
 
-SRCS=src/c/rnc.c
+SRCS=$(wildcard src/c/*.c)
 OBJS=$(SRCS:src/c/%.c=build/c/%.o)
 
 .PHONY: all

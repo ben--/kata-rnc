@@ -31,7 +31,6 @@ TEST_OBJS=$(SRCS:src/c/%.c=unit-test/c/%.o)
 
 .PHONY: unit-test
 unit-test: $(TEST_BINS)
-	mv unit-test/c/test_sum.c unit-test/c/test_sum.bak
 	@for t in $^; do \
 	    cd unit-test/c && ./$$(basename $$t) ; \
 	 done

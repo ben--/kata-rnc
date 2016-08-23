@@ -28,5 +28,6 @@ pub extern fn rnc_add(dst: *mut c_char, dstlen: size_t, num_l: *const c_char, nu
 }
 
 fn _add(num_l: &str, num_r: &str) -> String {
-    return String::from("II");
+    let sum = String::from(num_l);
+    return sum + num_r;
 }

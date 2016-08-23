@@ -1,0 +1,3 @@
+# test test_working
+    ck_assert_msg(0, "Fail message");
+

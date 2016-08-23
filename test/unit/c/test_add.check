@@ -9,3 +9,11 @@
     ck_assert_int_eq(0, actual_ret);
     ck_assert_str_eq("II", actual_sum);
 
+# test add_i_ii
+    int actual_ret;
+    char actual_sum[32];
+
+    actual_ret = rnc_add(actual_sum, sizeof(actual_sum), "I", "II");
+
+    ck_assert_int_eq(0, actual_ret);
+    ck_assert_str_eq("III", actual_sum);

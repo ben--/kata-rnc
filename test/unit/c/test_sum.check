@@ -1,3 +1,11 @@
-# test test_working
-    ck_assert_msg(1, "Fail message");
+#include "rnc.h"
+
+# test add_i_i
+    int actual_ret;
+    char actual_sum[32];
+
+    actual_ret = rnc_add(actual_sum, sizeof(actual_sum), "I", "I");
+
+    ck_assert_int_eq(0, actual_ret);
+    ck_assert_str_eq("II", actual_sum);
 

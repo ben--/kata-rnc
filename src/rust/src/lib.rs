@@ -19,3 +19,7 @@ pub extern fn rnc_add(dst: *mut c_char, dstlen: size_t, num_l: *const c_char, nu
         strncpy(dst, x.as_ptr() as *const i8, dstlen);
     }
 }
+
+fn _add(num_l: &str, num_r: &str) -> String {
+    return String::from("II");
+}

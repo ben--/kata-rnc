@@ -1,5 +1,6 @@
 #!/bin/bash -eu
 set -o pipefail
 
+do/unit-test-rust
 do/build-rust
 do/acceptance-rust

@@ -1,0 +1,63 @@
+#!/bin/bash -eu
+set -o pipefail
+
+DOCKER_IMAGE=kata-rnc/build-rust
+
+if [[ $DOCKER_IMAGE != ${DOCKER_CONTAINER-} ]]; then
+    source_dir="$(dirname "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)")"
+
+    echo -n "Base Docker: "
+    docker build ${DOCKER_QUIET-} \
+           --force-rm --rm=true \
+           -t "$DOCKER_IMAGE" \
+           "$source_dir/do/rust.docker"
+
+    "$source_dir/do/create-user" "$DOCKER_IMAGE"
+
+    output_dir="${source_dir}/unit-test/rust"
+    if [[ -e "$output_dir" ]]; then
+        echo rm -rf "$output_dir"
+        rm -rf "$output_dir"
+    fi
+    mkdir -p "$output_dir"
+
+    tty=
+    if [[ -t 1 ]]; then
+        tty=-t
+    fi
+    docker run $tty \
+           --env DOCKER_CONTAINER=$DOCKER_IMAGE \
+           --env "source_dir=$source_dir" \
+           --env "output_dir=$output_dir" \
+           --rm \
+           --sig-proxy=true \
+           --volume="$HOME/.cargo:$HOME/.cargo:rw" \
+           --volume="$source_dir:$source_dir:rw" \
+           --workdir="$source_dir" \
+           $DOCKER_IMAGE-user \
+           "$source_dir/do/unit-test-rust"
+    exit $?
+fi
+
+if [[ ! -e "$HOME/.cargo/registry" ]]; then
+    export CARGO_HOME=/tmp/.cargo
+fi
+
+cd src/rust
+export CARGO_TARGET_DIR="$output_dir"
+if [[ -t 1 ]]; then
+    if cargo test; then
+        echo -e "\e[92;1m   A_A
+ =(o.o)=    ,
+ (  _  )--'
+  !! !!      SUCCESS!\e[0m"
+    else
+        echo -e "\e[91;1m   A_A
+ =(x.x)=    ,
+ (  _  )--'
+  !! !!      FAIL.\e[0m"
+        exit 1
+    fi
+else
+    cargo test
+fi

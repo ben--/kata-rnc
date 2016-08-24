@@ -30,10 +30,11 @@ TEST_BINS=$(TEST_SRCS:test/unit/c/%.check=unit-test/c/%)
 TEST_OBJS=$(SRCS:src/c/%.c=unit-test/c/%.o)
 
 .PHONY: unit-test
-unit-test: $(TEST_BINS)
-	@for t in $^; do \
-	    cd unit-test/c && ./$$(basename $$t) ; \
-	 done
+unit-test: $(TEST_BINS:%=run-%)
+
+$(TEST_BINS:%=run-%): run-%: %
+	# Needs to run from a read-write directory...
+	cd unit-test/c && ./$(@F)
 
 $(TEST_BINS): unit-test/c/%: unit-test/c/%.o $(TEST_OBJS)
 	$(CC) $(LDFLAGS) $^ -lcheck -o $@

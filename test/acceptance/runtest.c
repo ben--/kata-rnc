@@ -22,6 +22,7 @@ int main(int argc, char **argv)
 
     errs += _sum("I", "I", "II");
     errs += _sum("I", "II", "III");
+    errs += _sum("II", "III", "V");
 
     return errs;
     (void)argc;

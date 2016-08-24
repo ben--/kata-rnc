@@ -16,6 +16,12 @@ mod rnc {
         assert_eq!("III", add("I", "II"));
     }
 
+    #[test]
+    fn add_ii_iii() {
+        assert_eq!("V", add("II", "III"));
+
+    }
+
     pub fn add(num_l: &str, num_r: &str) -> String {
         let sum = String::from(num_l);
         return sum + num_r;

@@ -1,6 +1,8 @@
 #include "rnc.h"
 
-# test add_i_i
+# suite add
+
+# test i_plus_i
     int actual_ret;
     char actual_sum[32];
 
@@ -9,7 +11,7 @@
     ck_assert_int_eq(0, actual_ret);
     ck_assert_str_eq("II", actual_sum);
 
-# test add_i_ii
+# test i_plus_ii
     int actual_ret;
     char actual_sum[32];
 
@@ -18,7 +20,7 @@
     ck_assert_int_eq(0, actual_ret);
     ck_assert_str_eq("III", actual_sum);
 
-# test add_ii_iii
+# test ii_plus_iii
     int actual_ret;
     char actual_sum[32];
 

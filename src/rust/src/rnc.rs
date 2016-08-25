@@ -5,10 +5,10 @@ pub fn add(num_l: &str, num_r: &str) -> String {
 }
 
 pub fn compress(num: &str) -> String {
-    if num == "IIIII" {
-        "V".to_string()
-    } else {
-        num.to_string()
+    match num {
+        "IIIII" => "V".to_string(),
+        "IIII" => "IV".to_string(),
+        _ => num.to_string(),
     }
 }
 
@@ -36,5 +36,10 @@ mod tests {
     #[test]
     fn compress_iiiii() {
         assert_eq!("V", compress("IIIII"));
+    }
+
+    #[test]
+    fn compress_iiii() {
+        assert_eq!("IV", compress("IIII"));
     }
 }

@@ -10,3 +10,12 @@
 
     ck_assert_int_eq(0, actual_ret);
     ck_assert_str_eq("V", actual_val);
+
+# test iiii
+    int actual_ret;
+    char actual_val[32];
+
+    actual_ret = rnc_compress(actual_val, sizeof(actual_val), "IIII");
+
+    ck_assert_int_eq(0, actual_ret);
+    ck_assert_str_eq("IV", actual_val);

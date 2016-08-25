@@ -28,3 +28,21 @@
 
     ck_assert_int_eq(0, actual_ret);
     ck_assert_str_eq("V", actual_sum);
+
+# test v_plus_i
+    int actual_ret;
+    char actual_sum[32];
+
+    actual_ret = rnc_add(actual_sum, sizeof(actual_sum), "V", "I");
+
+    ck_assert_int_eq(0, actual_ret);
+    ck_assert_str_eq("VI", actual_sum);
+
+# test i_plus_v
+    int actual_ret;
+    char actual_sum[32];
+
+    actual_ret = rnc_add(actual_sum, sizeof(actual_sum), "I", "V");
+
+    ck_assert_int_eq(0, actual_ret);
+    ck_assert_str_eq("VI", actual_sum);

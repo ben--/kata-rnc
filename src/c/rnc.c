@@ -16,6 +16,8 @@ int rnc_compress(char *compressed, size_t compressed_len, const char *uncompress
 {
     if (0 == strcmp("IIIII", uncompressed)) {
         strcpy(compressed, "V");
+    } else if (0 == strcmp("IIII", uncompressed)) {
+        strcpy(compressed, "IV");
     }
 
     return 0;

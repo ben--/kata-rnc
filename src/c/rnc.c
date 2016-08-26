@@ -27,7 +27,7 @@ int rnc_add(char *sum, size_t sumlen, const char *raw_l, const char *raw_r)
     }
     *out = '\0';
 
-    rnc_compress(sum, sumlen, sum);
+    rnc_normalize(sum, sumlen, sum);
 
     return 0;
 }
@@ -44,15 +44,15 @@ int rnc_denormalize(char *out, size_t outlen, const char *normal)
     (void)outlen;
 }
 
-int rnc_compress(char *compressed, size_t compressed_len, const char *uncompressed)
+int rnc_normalize(char *out, size_t outlen, const char *denormal)
 {
-    if (0 == strcmp("IIIII", uncompressed)) {
-        strcpy(compressed, "V");
-    } else if (0 == strcmp("IIII", uncompressed)) {
-        strcpy(compressed, "IV");
+    if (0 == strcmp("IIIII", denormal)) {
+        strcpy(out, "V");
+    } else if (0 == strcmp("IIII", denormal)) {
+        strcpy(out, "IV");
     }
 
     return 0;
 
-    (void)compressed_len;
+    (void)outlen;
 }

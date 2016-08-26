@@ -17,8 +17,9 @@ pub fn denormalize(num: &str) -> String {
 
 pub fn normalize(num: &str) -> String {
     match num {
-        "IIIII" => "V".to_string(),
         "IIII" => "IV".to_string(),
+        "IIIII" => "V".to_string(),
+        "VV" => "X".to_string(),
         _ => num.to_string(),
     }
 }
@@ -74,4 +75,11 @@ mod tests {
     fn normalize_iiii() {
         assert_eq!("IV", normalize("IIII"));
     }
+
+    #[test]
+    fn normalize_vv() {
+        assert_eq!("X", normalize("VV"));
+    }
+
+
 }

@@ -57,6 +57,8 @@ int rnc_normalize(char *out, size_t outlen, const char *denormal)
         strcpy(out, "IV");
     } else if (0 == strcmp("VV", denormal)) {
         strcpy(out, "X");
+    } else if (0 == strcmp("VIIII", denormal)) {
+        strcpy(out, "IX");
     } else if (0 == strcmp("VIIIII", denormal)) {
         strcpy(out, "X");
     }

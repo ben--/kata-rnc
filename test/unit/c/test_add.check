@@ -26,3 +26,6 @@ static void _test(const char *expected, const char *l, const char *r) {
 
 # test i_plus_v
     _test("VI", "I", "V");
+
+# test i_plus_iv
+    _test("V", "I", "IV");

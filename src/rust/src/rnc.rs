@@ -4,10 +4,10 @@ pub fn add(num_l: &str, num_r: &str) -> String {
     sum.sort();
     sum.reverse();
 
-    compress(&String::from_utf8(sum).unwrap())
+    normalize(&String::from_utf8(sum).unwrap())
 }
 
-pub fn compress(num: &str) -> String {
+pub fn normalize(num: &str) -> String {
     match num {
         "IIIII" => "V".to_string(),
         "IIII" => "IV".to_string(),
@@ -18,7 +18,7 @@ pub fn compress(num: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::add;
-    use super::compress;
+    use super::normalize;
 
     #[test]
     fn add_i_i() {
@@ -47,12 +47,12 @@ mod tests {
     }
 
     #[test]
-    fn compress_iiiii() {
-        assert_eq!("V", compress("IIIII"));
+    fn normalize_iiiii() {
+        assert_eq!("V", normalize("IIIII"));
     }
 
     #[test]
-    fn compress_iiii() {
-        assert_eq!("IV", compress("IIII"));
+    fn normalize_iiii() {
+        assert_eq!("IV", normalize("IIII"));
     }
 }

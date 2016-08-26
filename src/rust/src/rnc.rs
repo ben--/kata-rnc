@@ -11,6 +11,7 @@ pub fn add(num_l: &str, num_r: &str) -> String {
 pub fn denormalize(num: &str) -> String {
     match num {
         "IV" => "IIII",
+        "IX" => "VIIII",
         _ => num,
     }.to_string()
 }
@@ -20,6 +21,7 @@ pub fn normalize(num: &str) -> String {
         "IIII" => "IV".to_string(),
         "IIIII" => "V".to_string(),
         "VV" => "X".to_string(),
+        "VIIIII" => "X".to_string(),
         _ => num.to_string(),
     }
 }
@@ -67,6 +69,11 @@ mod tests {
     }
 
     #[test]
+    fn denormalize_ix() {
+        assert_eq!("VIIII", denormalize("IX"));
+    }
+
+    #[test]
     fn normalize_iiiii() {
         assert_eq!("V", normalize("IIIII"));
     }
@@ -81,5 +88,9 @@ mod tests {
         assert_eq!("X", normalize("VV"));
     }
 
+    #[test]
+    fn normalize_viiiii() {
+        assert_eq!("X", normalize("VIIIII"));
+    }
 
 }

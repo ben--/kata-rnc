@@ -20,8 +20,9 @@ pub fn normalize(num: &str) -> String {
     match num {
         "IIII" => "IV".to_string(),
         "IIIII" => "V".to_string(),
-        "VV" => "X".to_string(),
+        "VIIII" => "IX".to_string(),
         "VIIIII" => "X".to_string(),
+        "VV" => "X".to_string(),
         _ => num.to_string(),
     }
 }
@@ -86,6 +87,11 @@ mod tests {
     #[test]
     fn normalize_vv() {
         assert_eq!("X", normalize("VV"));
+    }
+
+    #[test]
+    fn normalize_viiii() {
+        assert_eq!("IX", normalize("VIIII"));
     }
 
     #[test]

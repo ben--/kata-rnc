@@ -2,47 +2,27 @@
 
 # suite add
 
-# test i_plus_i
+static void _test(const char *expected, const char *l, const char *r) {
     int actual_ret;
     char actual_sum[32];
 
-    actual_ret = rnc_add(actual_sum, sizeof(actual_sum), "I", "I");
+    actual_ret = rnc_add(actual_sum, sizeof(actual_sum), l, r);
 
     ck_assert_int_eq(0, actual_ret);
-    ck_assert_str_eq("II", actual_sum);
+    ck_assert_str_eq(expected, actual_sum);
+}
+
+# test i_plus_i
+    _test("II", "I", "I");
 
 # test i_plus_ii
-    int actual_ret;
-    char actual_sum[32];
-
-    actual_ret = rnc_add(actual_sum, sizeof(actual_sum), "I", "II");
-
-    ck_assert_int_eq(0, actual_ret);
-    ck_assert_str_eq("III", actual_sum);
+    _test("III", "I", "II");
 
 # test ii_plus_iii
-    int actual_ret;
-    char actual_sum[32];
-
-    actual_ret = rnc_add(actual_sum, sizeof(actual_sum), "II", "III");
-
-    ck_assert_int_eq(0, actual_ret);
-    ck_assert_str_eq("V", actual_sum);
+    _test("V", "II", "III");
 
 # test v_plus_i
-    int actual_ret;
-    char actual_sum[32];
-
-    actual_ret = rnc_add(actual_sum, sizeof(actual_sum), "V", "I");
-
-    ck_assert_int_eq(0, actual_ret);
-    ck_assert_str_eq("VI", actual_sum);
+    _test("VI", "V", "I");
 
 # test i_plus_v
-    int actual_ret;
-    char actual_sum[32];
-
-    actual_ret = rnc_add(actual_sum, sizeof(actual_sum), "I", "V");
-
-    ck_assert_int_eq(0, actual_ret);
-    ck_assert_str_eq("VI", actual_sum);
+    _test("VI", "I", "V");

@@ -18,14 +18,14 @@ static void _test(const char *expected, const char *l, const char *r) {
 # test i_plus_ii
     _test("III", "I", "II");
 
-# test ii_plus_iii
+# test ii_plus_iii_requires_normalization_to_v
     _test("V", "II", "III");
 
 # test v_plus_i
     _test("VI", "V", "I");
 
-# test i_plus_v
+# test i_plus_v_understands_the_relative_order_of_v_and_i
     _test("VI", "I", "V");
 
-# test i_plus_iv
+# test i_plus_iv_denormalizes_before_adding
     _test("V", "I", "IV");

@@ -39,7 +39,7 @@ mod tests {
     }
 
     #[test]
-    fn add_ii_iii() {
+    fn add_ii_iii_requires_normalization_to_v() {
         assert_eq!("V", add("II", "III"));
 
     }
@@ -50,12 +50,12 @@ mod tests {
     }
 
     #[test]
-    fn add_i_v() {
+    fn add_i_v_understands_the_relative_order_of_v_and_i() {
         assert_eq!("VI", add("I", "V"));
     }
 
     #[test]
-    fn add_i_iv() {
+    fn add_i_iv_denormalizes_before_adding() {
         assert_eq!("V", add("I", "IV"));
     }
 

@@ -19,3 +19,12 @@
 
     ck_assert_int_eq(0, actual_ret);
     ck_assert_str_eq("IV", actual_val);
+
+# test vv
+    int actual_ret;
+    char actual_val[32];
+
+    actual_ret = rnc_normalize(actual_val, sizeof(actual_val), "VV");
+
+    ck_assert_int_eq(0, actual_ret);
+    ck_assert_str_eq("X", actual_val);

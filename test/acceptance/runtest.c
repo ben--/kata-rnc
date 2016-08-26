@@ -25,6 +25,7 @@ int main(int argc, char **argv)
     tests++; errs += _sum("II", "III", "V");
     tests++; errs += _sum("IV", "I", "V");
     tests++; errs += _sum("V", "I", "VI");
+    tests++; errs += _sum("V", "V", "X");
 
     printf("test result: %d passed, %d failed\n", tests - errs, errs);
 

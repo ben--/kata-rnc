@@ -50,6 +50,8 @@ int rnc_normalize(char *out, size_t outlen, const char *denormal)
         strcpy(out, "V");
     } else if (0 == strcmp("IIII", denormal)) {
         strcpy(out, "IV");
+    } else if (0 == strcmp("VV", denormal)) {
+        strcpy(out, "X");
     }
 
     return 0;

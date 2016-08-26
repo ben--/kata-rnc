@@ -18,11 +18,15 @@ static int _sum(const char *l, const char *r, const char *expected_sum)
 
 int main(int argc, char **argv)
 {
-    int errs = 0;
+    int errs = 0, tests = 0;
 
-    errs += _sum("I", "I", "II");
-    errs += _sum("I", "II", "III");
-    errs += _sum("II", "III", "V");
+    tests++; errs += _sum("I", "I", "II");
+    tests++; errs += _sum("I", "II", "III");
+    tests++; errs += _sum("II", "III", "V");
+    tests++; errs += _sum("IV", "I", "V");
+    tests++; errs += _sum("V", "I", "VI");
+
+    printf("test result: %d passed, %d failed\n", tests - errs, errs);
 
     return errs;
     (void)argc;

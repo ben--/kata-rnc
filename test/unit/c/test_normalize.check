@@ -21,8 +21,17 @@ static void _test(const char *expected, const char *denormal) {
 # test vv
     _test("X", "VV");
 
+# test iiiiiii
+    _test("VII", "IIIIIII");
+
+# test iiiiiiii
+    _test("VIII", "IIIIIIII");
+
 # test viiiii
     _test("X", "VIIIII");
 
 # test viiii
     _test("IX", "VIIII");
+
+# test xviiii
+    _test("XIX", "XVIIII");

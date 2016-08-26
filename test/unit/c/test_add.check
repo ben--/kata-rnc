@@ -29,3 +29,6 @@ static void _test(const char *expected, const char *l, const char *r) {
 
 # test i_plus_iv_denormalizes_before_adding
     _test("V", "I", "IV");
+
+# test iv_plus_iv_normalizes_partial_numbers
+    _test("VIII", "IV", "IV");

@@ -51,16 +51,20 @@ int rnc_denormalize(char *out, size_t outlen, const char *normal)
 
 int rnc_normalize(char *out, size_t outlen, const char *denormal)
 {
-    if (0 == strcmp("IIIII", denormal)) {
-        strcpy(out, "V");
-    } else if (0 == strcmp("IIII", denormal)) {
-        strcpy(out, "IV");
-    } else if (0 == strcmp("VV", denormal)) {
-        strcpy(out, "X");
-    } else if (0 == strcmp("VIIII", denormal)) {
-        strcpy(out, "IX");
-    } else if (0 == strcmp("VIIIII", denormal)) {
-        strcpy(out, "X");
+    char *tail;
+    strcpy(out, denormal);
+    while (NULL != (tail = strstr(out, "IIIII"))) {
+        *tail++ = 'V';
+        strcpy(tail, out + strlen("IIIII"));
+    }
+    while (NULL != (tail = strstr(out, "IIII"))) {
+        strcpy(tail, "IV");
+    }
+    while (NULL != (tail = strstr(out, "VIV"))) {
+        strcpy(tail, "IX");
+    }
+    while (NULL != (tail = strstr(out, "VV"))) {
+        strcpy(tail, "X");
     }
 
     return 0;

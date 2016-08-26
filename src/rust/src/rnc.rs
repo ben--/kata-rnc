@@ -1,10 +1,18 @@
 pub fn add(num_l: &str, num_r: &str) -> String {
-    let mut sum: Vec<u8> = (String::from(num_l) + num_r).into();
+    let mut sum = denormalize(num_l);
+    sum.extend(denormalize(num_r));
 
     sum.sort();
     sum.reverse();
 
     normalize(&String::from_utf8(sum).unwrap())
+}
+
+pub fn denormalize(num: &str) -> Vec<u8> {
+    match num {
+        "IV" => "IIII".into(),
+        _ => num.into(),
+    }
 }
 
 pub fn normalize(num: &str) -> String {
@@ -44,6 +52,11 @@ mod tests {
     #[test]
     fn add_i_v() {
         assert_eq!("VI", add("I", "V"));
+    }
+
+    #[test]
+    fn add_i_iv() {
+        assert_eq!("V", add("I", "IV"));
     }
 
     #[test]

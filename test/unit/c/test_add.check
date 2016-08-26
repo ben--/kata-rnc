@@ -4,7 +4,7 @@
 
 static void _test(const char *expected, const char *l, const char *r) {
     int actual_ret;
-    char actual_sum[32];
+    char actual_sum[32] = { 'u', 'n', 'i', 't', 'i', 'a', 'l', 'i', 'z', 'e', 'd' };
 
     actual_ret = rnc_add(actual_sum, sizeof(actual_sum), l, r);
 

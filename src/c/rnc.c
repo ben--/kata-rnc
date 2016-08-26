@@ -3,10 +3,13 @@
 #include <stdbool.h>
 #include <string.h>
 
-static bool _comes_before(char l, char r)
+bool rnc_larger(char l, char r)
 {
     if (!r) return true;
-    return l == 'V';
+    else if (!l) return false;
+    else if (l == 'X') return true;
+    else if (r == 'X') return false;
+    else return l == 'V';
 }
 
 int rnc_add(char *sum, size_t sumlen, const char *raw_l, const char *raw_r)
@@ -19,7 +22,7 @@ int rnc_add(char *sum, size_t sumlen, const char *raw_l, const char *raw_r)
 
     char *out = sum;
     while (*num_l || *num_r) {
-        if (_comes_before(*num_l, *num_r)) {
+        if (rnc_larger(*num_l, *num_r)) {
             *out++ = *num_l++;
         } else {
             *out++ = *num_r++;
@@ -36,6 +39,8 @@ int rnc_denormalize(char *out, size_t outlen, const char *normal)
 {
     if (0 == strcmp("IV", normal)) {
         strcpy(out, "IIII");
+    } else if (0 == strcmp("IX", normal)) {
+        strcpy(out, "VIIII");
     } else {
         strcpy(out, normal);
     }
@@ -51,6 +56,8 @@ int rnc_normalize(char *out, size_t outlen, const char *denormal)
     } else if (0 == strcmp("IIII", denormal)) {
         strcpy(out, "IV");
     } else if (0 == strcmp("VV", denormal)) {
+        strcpy(out, "X");
+    } else if (0 == strcmp("VIIIII", denormal)) {
         strcpy(out, "X");
     }
 

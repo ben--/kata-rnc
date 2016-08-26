@@ -1,0 +1,18 @@
+#include "rnc.h"
+
+# suite larger
+
+# test i_larger_than_nil
+    ck_assert(rnc_larger('I', '\0'));
+
+# test nil_smaller_than_i
+    ck_assert(!rnc_larger('\0', 'I'));
+
+# test v_larger_than_i
+    ck_assert(rnc_larger('V', 'I'));
+
+# test i_smaller_than_v
+    ck_assert(!rnc_larger('I', 'V'));
+
+# test x_larger_than_v
+    ck_assert(rnc_larger('X', 'V'));

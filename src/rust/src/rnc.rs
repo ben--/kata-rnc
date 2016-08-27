@@ -16,14 +16,20 @@ pub fn denormalize(num: &str) -> String {
     }.to_string()
 }
 
+fn _factor_out(num: &str, before: &str, after: &str) -> String {
+    let parts: Vec<&str> = num.split(before).collect();
+    parts.join(after)
+}
+
 pub fn normalize(num: &str) -> String {
-    match num {
-        "IIII" => "IV".to_string(),
-        "IIIII" => "V".to_string(),
+    let num = _factor_out(num, "IIIII", "V");
+    let num = _factor_out(num.as_ref(), "IIII", "IV");
+    let num = _factor_out(num.as_ref(), "VIV", "IX");
+    match num.as_ref() {
         "VIIII" => "IX".to_string(),
         "VIIIII" => "X".to_string(),
         "VV" => "X".to_string(),
-        _ => num.to_string(),
+        _ => num,
     }
 }
 

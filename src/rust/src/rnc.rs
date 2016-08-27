@@ -25,12 +25,8 @@ pub fn normalize(num: &str) -> String {
     let num = _factor_out(num, "IIIII", "V");
     let num = _factor_out(num.as_ref(), "IIII", "IV");
     let num = _factor_out(num.as_ref(), "VIV", "IX");
-    match num.as_ref() {
-        "VIIII" => "IX".to_string(),
-        "VIIIII" => "X".to_string(),
-        "VV" => "X".to_string(),
-        _ => num,
-    }
+    let num = _factor_out(num.as_ref(), "VV", "X");
+    num
 }
 
 #[cfg(test)]

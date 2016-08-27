@@ -5,7 +5,7 @@
 
 static int _sum(const char *l, const char *r, const char *expected_sum)
 {
-    char actual_sum[256];
+    char actual_sum[256] = { 'u', 'n', 'i', 't', 'i', 'a', 'l', 'i', 'z', 'e', 'd' };
 
     rnc_add(actual_sum, sizeof(actual_sum), l, r);
     if (0 != strcmp(expected_sum, actual_sum)) {
@@ -30,7 +30,8 @@ int main(int argc, char **argv)
     tests++; errs += _sum("VI", "IV", "X");
     tests++; errs += _sum("I", "IX", "X");
     tests++; errs += _sum("IX", "X", "XIX");
-    //tests++; errs += _sum("V", "XV", "XIX");
+    //tests++; errs += _sum("V", "XIV", "XIX");
+    //tests++; errs += _sum("V", "XV", "XX");
 
     printf("test result: %d passed, %d failed\n", tests - errs, errs);
 

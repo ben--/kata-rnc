@@ -9,21 +9,16 @@ pub fn add(num_l: &str, num_r: &str) -> String {
 }
 
 pub fn denormalize(num: &str) -> String {
-    let num = _factor_out(num, "IV", "IIII");
-    let num = _factor_out(num.as_ref(), "IX", "VIIII");
+    let num = num.replace("IV", "IIII");
+    let num = num.replace("IX", "VIIII");
     num
 }
 
-fn _factor_out(num: &str, before: &str, after: &str) -> String {
-    let parts: Vec<&str> = num.split(before).collect();
-    parts.join(after)
-}
-
 pub fn normalize(num: &str) -> String {
-    let num = _factor_out(num, "IIIII", "V");
-    let num = _factor_out(num.as_ref(), "IIII", "IV");
-    let num = _factor_out(num.as_ref(), "VIV", "IX");
-    let num = _factor_out(num.as_ref(), "VV", "X");
+    let num = num.replace("IIIII", "V");
+    let num = num.replace("IIII", "IV");
+    let num = num.replace("VIV", "IX");
+    let num = num.replace("VV", "X");
     num
 }
 

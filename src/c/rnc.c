@@ -7,9 +7,11 @@ bool rnc_larger(char l, char r)
 {
     if (!r) return true;
     else if (!l) return false;
-    else if (l == 'X') return true;
+    else if (r == 'L') return false;
+    else if (l == 'L') return true;
     else if (r == 'X') return false;
-    else return l == 'V';
+    else if (l == 'X') return true;
+    else return r != 'V';
 }
 
 int rnc_add(char *sum, size_t sumlen, const char *raw_l, const char *raw_r)

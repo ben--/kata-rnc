@@ -32,3 +32,9 @@ static void _test(const char *expected, const char *l, const char *r) {
 
 # test iv_plus_iv_normalizes_partial_numbers
     _test("VIII", "IV", "IV");
+
+# test l_plus_i_supports_l
+    _test("LI", "I", "L");
+
+# test i_plus_l_supports_l
+    _test("LI", "L", "I");

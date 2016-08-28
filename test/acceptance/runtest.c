@@ -33,6 +33,7 @@ int main(int argc, char **argv)
     tests++; errs += _sum("V", "XIV", "XIX");
     tests++; errs += _sum("V", "XV", "XX");
     tests++; errs += _sum("L", "I", "LI");
+    tests++; errs += _sum("L", "XI", "LXI");
     //tests++; errs += _sum("XLIX", "I", "L");
     // _fail("IL", "I");
 

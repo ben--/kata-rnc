@@ -1,11 +1,57 @@
+use std::cmp::Ordering;
+
 pub fn add(num_l: &str, num_r: &str) -> String {
-    let mut sum: Vec<u8> = denormalize(num_l).into();
-    sum.extend(denormalize(num_r).bytes());
+    let sum = merge(denormalize(num_l), denormalize(num_r));
+    normalize(&sum)
+}
 
-    sum.sort();
-    sum.reverse();
+fn cmp(l: char, r: char) -> Ordering {
+    match(l, r) {
+        ('L', 'L') => Ordering::Equal,
+        (_, 'L') => Ordering::Less,
+        ('L', _) => Ordering::Greater,
+        ('X', 'X') => Ordering::Equal,
+        (_, 'X') => Ordering::Less,
+        ('X', _) => Ordering::Greater,
+        ('V', 'V') => Ordering::Equal,
+        (_, 'V') => Ordering::Less,
+        ('V', _) => Ordering::Greater,
+        (_, _) => Ordering::Equal,
+    }
+}
 
-    normalize(&String::from_utf8(sum).unwrap())
+fn merge(num_l: String, num_r: String) -> String {
+    let mut digits_l = num_l.chars();
+    let mut digits_r = num_r.chars();
+
+    let mut sum = String::new();
+
+    let mut next_l = digits_l.next();
+    let mut next_r = digits_r.next();
+    loop {
+        match (next_l, next_r) {
+            (Some(l), Some(r)) => {
+                if cmp(l, r) == Ordering::Greater {
+                    sum.push(l);
+                    next_l = digits_l.next();
+                } else {
+                    sum.push(r);
+                    next_r = digits_r.next();
+                }
+            },
+            (Some(l), None) => {
+                sum.push(l);
+                next_l = digits_l.next();
+            },
+            (None, Some(r)) => {
+                sum.push(r);
+                next_r = digits_r.next();
+            },
+            (None, None) => { break }
+        }
+    }
+
+    sum
 }
 
 pub fn denormalize(num: &str) -> String {
@@ -25,8 +71,61 @@ pub fn normalize(num: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::add;
+    use super::cmp;
     use super::normalize;
     use super::denormalize;
+
+    use std::cmp::Ordering;
+
+    #[test]
+    fn i_equal_to_i() {
+        assert_eq!(Ordering::Equal, cmp('I', 'I'));
+    }
+
+    #[test]
+    fn i_less_than_v() {
+        assert_eq!(Ordering::Less, cmp('I', 'V'));
+    }
+
+    #[test]
+    fn v_greater_than_i() {
+        assert_eq!(Ordering::Greater, cmp('V', 'I'));
+    }
+
+    #[test]
+    fn v_equal_to_v() {
+        assert_eq!(Ordering::Equal, cmp('V', 'V'));
+    }
+
+    #[test]
+    fn x_greater_than_v() {
+        assert_eq!(Ordering::Greater, cmp('X', 'V'));
+    }
+
+    #[test]
+    fn v_less_than_x() {
+        assert_eq!(Ordering::Less, cmp('V', 'X'));
+    }
+
+    #[test]
+    fn x_equal_to_x() {
+        assert_eq!(Ordering::Equal, cmp('X', 'X'));
+    }
+
+    #[test]
+    fn l_greater_than_x() {
+        assert_eq!(Ordering::Greater, cmp('L', 'X'));
+    }
+
+    #[test]
+    fn x_less_than_l() {
+        assert_eq!(Ordering::Less, cmp('X', 'L'));
+    }
+
+    #[test]
+    fn l_equal_to_l() {
+        assert_eq!(Ordering::Equal, cmp('L', 'L'));
+    }
 
     #[test]
     fn add_i_i() {
@@ -57,6 +156,16 @@ mod tests {
     #[test]
     fn add_i_iv_denormalizes_before_adding() {
         assert_eq!("V", add("I", "IV"));
+    }
+
+    #[test]
+    fn add_l_i_supports_l() {
+        assert_eq!("LI", add("L", "I"));
+    }
+
+    #[test]
+    fn add_l_xi_understands_l_x_sort_order() {
+        assert_eq!("LXI", add("L", "XI"));
     }
 
     #[test]

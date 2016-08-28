@@ -9,11 +9,9 @@ pub fn add(num_l: &str, num_r: &str) -> String {
 }
 
 pub fn denormalize(num: &str) -> String {
-    match num {
-        "IV" => "IIII",
-        "IX" => "VIIII",
-        _ => num,
-    }.to_string()
+    let num = _factor_out(num, "IV", "IIII");
+    let num = _factor_out(num.as_ref(), "IX", "VIIII");
+    num
 }
 
 fn _factor_out(num: &str, before: &str, after: &str) -> String {
@@ -74,6 +72,11 @@ mod tests {
     #[test]
     fn denormalize_ix() {
         assert_eq!("VIIII", denormalize("IX"));
+    }
+
+    #[test]
+    fn denormalize_xiv_performs_a_partial_denormalization_on_tail() {
+        assert_eq!("XIIII", denormalize("XIV"));
     }
 
     #[test]

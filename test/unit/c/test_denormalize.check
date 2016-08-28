@@ -2,29 +2,21 @@
 
 # suite denormalize
 
-# test iv
+static void _test(const char *normal, const char *expected) {
     int actual_ret;
     char actual_val[32] = { 'u', 'n', 'i', 't', 'i', 'a', 'l', 'i', 'z', 'e', 'd' };
 
-    actual_ret = rnc_denormalize(actual_val, sizeof(actual_val), "IV");
+    actual_ret = rnc_denormalize(actual_val, sizeof(actual_val), normal);
 
     ck_assert_int_eq(0, actual_ret);
-    ck_assert_str_eq("IIII", actual_val);
+    ck_assert_str_eq(expected, actual_val);
+}
+
+# test iv
+    _test("IV", "IIII");
 
 # test ix
-    int actual_ret;
-    char actual_val[32] = { 'u', 'n', 'i', 't', 'i', 'a', 'l', 'i', 'z', 'e', 'd' };
-
-    actual_ret = rnc_denormalize(actual_val, sizeof(actual_val), "IX");
-
-    ck_assert_int_eq(0, actual_ret);
-    ck_assert_str_eq("VIIII", actual_val);
+    _test("IX", "VIIII");
 
 # test xiv
-    int actual_ret;
-    char actual_val[32] = { 'u', 'n', 'i', 't', 'i', 'a', 'l', 'i', 'z', 'e', 'd' };
-
-    actual_ret = rnc_denormalize(actual_val, sizeof(actual_val), "XIV");
-
-    ck_assert_int_eq(0, actual_ret);
-    ck_assert_str_eq("XIIII", actual_val);
+    _test("XIV", "XIIII");

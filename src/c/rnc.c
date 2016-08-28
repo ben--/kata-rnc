@@ -41,17 +41,10 @@ int rnc_denormalize(char *out, size_t outlen, const char *normal)
     char *tail;
     strcpy(out, normal);
     if (NULL != (tail = strstr(out, "IV"))) {
-        *tail++ = 'I';
-        *tail++ = 'I';
-        *tail++ = 'I';
-        *tail++ = 'I';
-        *tail = '\0';
+        strcpy(tail, "IIII");
     }
-
-    if (0 == strcmp("IV", normal)) {
-        strcpy(out, "IIII");
-    } else if (0 == strcmp("IX", normal)) {
-        strcpy(out, "VIIII");
+    if (NULL != (tail = strstr(out, "IX"))) {
+        strcpy(tail, "VIIII");
     }
 
     return 0;

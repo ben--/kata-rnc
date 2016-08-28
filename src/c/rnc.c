@@ -35,14 +35,23 @@ int rnc_add(char *sum, size_t sumlen, const char *raw_l, const char *raw_r)
     return 0;
 }
 
+
 int rnc_denormalize(char *out, size_t outlen, const char *normal)
 {
+    char *tail;
+    strcpy(out, normal);
+    if (NULL != (tail = strstr(out, "IV"))) {
+        *tail++ = 'I';
+        *tail++ = 'I';
+        *tail++ = 'I';
+        *tail++ = 'I';
+        *tail = '\0';
+    }
+
     if (0 == strcmp("IV", normal)) {
         strcpy(out, "IIII");
     } else if (0 == strcmp("IX", normal)) {
         strcpy(out, "VIIII");
-    } else {
-        strcpy(out, normal);
     }
 
     return 0;

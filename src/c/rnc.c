@@ -19,11 +19,11 @@ bool rnc_larger(char l, char r)
 int rnc_add(char *sum, size_t sumlen, const char *raw_l, const char *raw_r)
 {
     char buf_l[12], buf_r[12];
+    rnc_denormalize(buf_l, sizeof(buf_l), raw_l);
+    rnc_denormalize(buf_r, sizeof(buf_r), raw_r);
+
     char *num_l = buf_l;
     char *num_r = buf_r;
-    rnc_denormalize(num_l, sizeof(buf_l), raw_l);
-    rnc_denormalize(num_r, sizeof(buf_r), raw_r);
-
     char *out = sum;
     while (*num_l || *num_r) {
         if (rnc_larger(*num_l, *num_r)) {
@@ -34,7 +34,7 @@ int rnc_add(char *sum, size_t sumlen, const char *raw_l, const char *raw_r)
     }
     *out = '\0';
 
-    rnc_normalize(sum, sumlen, sum);
+    rnc_normalize(sum, sumlen);
 
     return 0;
 }
@@ -50,16 +50,13 @@ int rnc_denormalize(char *out, size_t outlen, const char *normal)
     return 0;
 }
 
-int rnc_normalize(char *out, size_t outlen, const char *denormal)
+int rnc_normalize(char *buf, size_t buflen)
 {
-    // Temporary -- remove this argument to avoid this approach
-    memmove(out, denormal, strlen(denormal) + 1);
-
-    REPLACE(out, outlen, "IIIII", "V");
-    REPLACE(out, outlen, "IIII", "IV");
-    REPLACE(out, outlen, "VIV", "IX");
-    REPLACE(out, outlen, "VV", "X");
-    REPLACE(out, outlen, "XXXXX", "L");
+    REPLACE(buf, buflen, "IIIII", "V");
+    REPLACE(buf, buflen, "IIII", "IV");
+    REPLACE(buf, buflen, "VIV", "IX");
+    REPLACE(buf, buflen, "VV", "X");
+    REPLACE(buf, buflen, "XXXXX", "L");
 
     return 0;
 }

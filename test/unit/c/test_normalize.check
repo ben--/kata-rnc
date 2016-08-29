@@ -5,8 +5,9 @@
 static void _test(const char *expected, const char *denormal) {
     int actual_ret;
     char actual_val[32] = { 'u', 'n', 'i', 't', 'i', 'a', 'l', 'i', 'z', 'e', 'd' };
+    strcpy(actual_val, denormal);
 
-    actual_ret = rnc_normalize(actual_val, sizeof(actual_val), denormal);
+    actual_ret = rnc_normalize(actual_val, sizeof(actual_val));
 
     ck_assert_int_eq(0, actual_ret);
     ck_assert_str_eq(expected, actual_val);

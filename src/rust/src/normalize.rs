@@ -42,6 +42,11 @@ mod tests {
     }
 
     #[test]
+    fn vviv_becomes_xiv() {
+        assert_eq!("XIV", normalize("VVIV"));
+    }
+
+    #[test]
     fn xxxxx_becomes_l() {
         assert_eq!("L", normalize("XXXXX"));
     }

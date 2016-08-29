@@ -64,12 +64,12 @@ int rnc_normalize(char *buf, size_t buflen)
 {
     REPLACE(buf, buflen, "IIIII", "V");
     REPLACE(buf, buflen, "IIII", "IV");
-    REPLACE(buf, buflen, "VIV", "IX");
     REPLACE(buf, buflen, "VV", "X");
+    REPLACE(buf, buflen, "VIV", "IX");
     REPLACE(buf, buflen, "XXXXX", "L");
     REPLACE(buf, buflen, "XXXX", "XL");
-    REPLACE(buf, buflen, "LXL", "XC");
     REPLACE(buf, buflen, "LL", "C");
+    REPLACE(buf, buflen, "LXL", "XC");
     REPLACE(buf, buflen, "CCCCC", "D");
     REPLACE(buf, buflen, "CCCC", "CD");
     REPLACE(buf, buflen, "DD", "M");

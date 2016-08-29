@@ -34,6 +34,9 @@ static void _test(const char *expected, const char *denormal) {
 # test viiii
     _test("IX", "VIIII");
 
+# test vviv_becomes_xiv
+    _test("XIV", "VVIV");
+
 # test xviiii
     _test("XIX", "XVIIII");
 
@@ -51,6 +54,9 @@ static void _test(const char *expected, const char *denormal) {
 
 # test ll
     _test("C", "LL");
+
+# test llxl_becomes_cxl
+    _test("CXL", "LLXL");
 
 # test cccc
     _test("CD", "CCCC");

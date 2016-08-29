@@ -33,8 +33,10 @@ int rnc_add(char *sum, size_t sumlen, const char *raw_l, const char *raw_r)
     char *out = sum;
     while (*num_l || *num_r) {
         if (rnc_larger(*num_l, *num_r)) {
+            if (out > sum + sumlen - sizeof("")) return 1;
             *out++ = *num_l++;
         } else {
+            if (out > sum + sumlen - sizeof("")) return 1;
             *out++ = *num_r++;
         }
     }

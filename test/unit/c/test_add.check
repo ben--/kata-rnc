@@ -39,10 +39,29 @@ static void _test(const char *expected, const char *l, const char *r) {
 # test i_plus_l_supports_l
     _test("LI", "L", "I");
 
-# test i_plus_i_fails_to_put_answer_in_a_too_short_buffer
+# test fails_cleanly_when_buffer_is_one_character_too_short
     int actual_ret;
-    char actual_sum[] = { '\0', '\0' };
+    char heap[] = { '*', '*', 'a', 'd', 'a', 'd' };
 
-    actual_ret = rnc_add(actual_sum, sizeof(actual_sum), "I", "I");
+    actual_ret = rnc_add(heap, 2, "I", "I");
 
     ck_assert_int_ne(0, actual_ret);
+    ck_assert_int_eq(0, memcmp(heap + 2, "adad", sizeof(heap) - 2));
+
+# test fails_cleanly_when_buffer_is_far_too_short
+    int actual_ret;
+    char heap[] = { '*', '*', 'a', 'd', 'a', 'd' };
+
+    actual_ret = rnc_add(heap, 2, "XX", "II");
+
+    ck_assert_int_ne(0, actual_ret);
+    ck_assert_int_eq(0, memcmp(heap + 2, "adad", sizeof(heap) - 2));
+
+# test fails_cleanly_when_buffer_is_far_too_short_regardless_of_input_order
+    int actual_ret;
+    char heap[] = { '*', '*', 'a', 'd', 'a', 'd' };
+
+    actual_ret = rnc_add(heap, 2, "II", "XX");
+
+    ck_assert_int_ne(0, actual_ret);
+    ck_assert_int_eq(0, memcmp(heap + 2, "adad", sizeof(heap) - 2));

@@ -10,6 +10,7 @@ pub fn normalize(num: &str) -> String {
     let num = num.replace("CCCCC", "D");
     let num = num.replace("CCCC", "CD");
     let num = num.replace("DD", "M");
+    let num = num.replace("DCD", "CM");
     num
 }
 
@@ -90,6 +91,11 @@ mod tests {
     #[test]
     fn ccccc_becomes_d() {
         assert_eq!("D", normalize("CCCCC"));
+    }
+
+    #[test]
+    fn dcd_becomes_cm() {
+        assert_eq!("CM", normalize("DCD"));
     }
 
     #[test]

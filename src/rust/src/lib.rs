@@ -9,6 +9,9 @@ use std::os::raw::c_char;
 mod cmp;
 pub use cmp::cmp;
 
+mod denormalize;
+pub use denormalize::denormalize;
+
 mod normalize;
 pub use normalize::normalize;
 

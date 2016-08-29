@@ -1,6 +1,7 @@
 use std::cmp::Ordering;
 
 use cmp;
+use denormalize;
 use normalize;
 
 pub fn add(num_l: &str, num_r: &str) -> String {
@@ -42,17 +43,9 @@ fn merge(num_l: String, num_r: String) -> String {
     sum
 }
 
-pub fn denormalize(num: &str) -> String {
-    let num = num.replace("IV", "IIII");
-    let num = num.replace("IX", "VIIII");
-    let num = num.replace("XL", "XXXX");
-    num
-}
-
 #[cfg(test)]
 mod tests {
     use super::add;
-    use super::denormalize;
 
     #[test]
     fn add_i_i() {
@@ -93,25 +86,5 @@ mod tests {
     #[test]
     fn add_l_xi_understands_l_x_sort_order() {
         assert_eq!("LXI", add("L", "XI"));
-    }
-
-    #[test]
-    fn denormalize_iv() {
-        assert_eq!("IIII", denormalize("IV"));
-    }
-
-    #[test]
-    fn denormalize_ix() {
-        assert_eq!("VIIII", denormalize("IX"));
-    }
-
-    #[test]
-    fn denormalize_xiv_performs_a_partial_denormalization_on_tail() {
-        assert_eq!("XIIII", denormalize("XIV"));
-    }
-
-    #[test]
-    fn denormalize_xl() {
-        assert_eq!("XXXX", denormalize("XL"));
     }
 }

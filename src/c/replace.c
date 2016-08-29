@@ -10,11 +10,15 @@ int replace(char *buf, size_t buflen,
 
     if (match) {
         char *tail = match + fromlen;
-        memmove(match + tolen, tail, strlen(tail) + sizeof(""));
+        size_t tail_len = strlen(tail);
+
+        if ((match + tolen + tail_len + 1) > (buf + buflen)) {
+            return 1;
+        }
+        memmove(match + tolen, tail, tail_len + sizeof(""));
         strncpy(match, to, tolen);
     }
 
     return 0;
     (void)buflen;
-    (void)fromlen;
 }

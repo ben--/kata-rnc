@@ -1,5 +1,7 @@
 #include "rnc.h"
 
+#include "replace.h"
+
 #include <stdbool.h>
 #include <string.h>
 
@@ -39,41 +41,24 @@ int rnc_add(char *sum, size_t sumlen, const char *raw_l, const char *raw_r)
 
 int rnc_denormalize(char *out, size_t outlen, const char *normal)
 {
-    char *tail;
     strcpy(out, normal);
-    if (NULL != (tail = strstr(out, "IV"))) {
-        strcpy(tail, "IIII");
-    }
-    if (NULL != (tail = strstr(out, "XL"))) {
-        strcpy(tail, "XXXX");
-    }
-    if (NULL != (tail = strstr(out, "IX"))) {
-        strcpy(tail, "VIIII");
-    }
+
+    REPLACE(out, outlen, "IV", "IIII");
+    REPLACE(out, outlen, "XL", "XXXX");
+    REPLACE(out, outlen, "IX", "VIIII");
 
     return 0;
-    (void)outlen;
 }
 
 int rnc_normalize(char *out, size_t outlen, const char *denormal)
 {
-    char *tail;
-    strcpy(out, denormal);
-    while (NULL != (tail = strstr(out, "IIIII"))) {
-        *tail++ = 'V';
-        strcpy(tail, out + strlen("IIIII"));
-    }
-    while (NULL != (tail = strstr(out, "IIII"))) {
-        strcpy(tail, "IV");
-    }
-    while (NULL != (tail = strstr(out, "VIV"))) {
-        strcpy(tail, "IX");
-    }
-    while (NULL != (tail = strstr(out, "VV"))) {
-        strcpy(tail, "X");
-    }
+    // Temporary -- remove this argument to avoid this approach
+    memmove(out, denormal, strlen(denormal) + 1);
+
+    REPLACE(out, outlen, "IIIII", "V");
+    REPLACE(out, outlen, "IIII", "IV");
+    REPLACE(out, outlen, "VIV", "IX");
+    REPLACE(out, outlen, "VV", "X");
 
     return 0;
-
-    (void)outlen;
 }

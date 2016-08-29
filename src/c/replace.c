@@ -13,6 +13,7 @@ int replace(char *buf, size_t buflen,
         size_t tail_len = strlen(tail);
 
         if ((match + tolen + tail_len + 1) > (buf + buflen)) {
+            // would result in overflow
             return 1;
         }
         memmove(match + tolen, tail, tail_len + sizeof(""));
@@ -20,5 +21,4 @@ int replace(char *buf, size_t buflen,
     }
 
     return 0;
-    (void)buflen;
 }

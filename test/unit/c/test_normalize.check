@@ -35,3 +35,6 @@ static void _test(const char *expected, const char *denormal) {
 
 # test xviiii
     _test("XIX", "XVIIII");
+
+# test xxxxx
+    _test("L", "XXXXX");

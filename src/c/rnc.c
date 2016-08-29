@@ -21,8 +21,8 @@ int rnc_add(char *sum, size_t sumlen, const char *raw_l, const char *raw_r)
     char buf_l[12], buf_r[12];
     char *num_l = buf_l;
     char *num_r = buf_r;
-    rnc_denormalize(num_l, sizeof(num_l), raw_l);
-    rnc_denormalize(num_r, sizeof(num_r), raw_r);
+    rnc_denormalize(num_l, sizeof(buf_l), raw_l);
+    rnc_denormalize(num_r, sizeof(buf_r), raw_r);
 
     char *out = sum;
     while (*num_l || *num_r) {
@@ -59,6 +59,7 @@ int rnc_normalize(char *out, size_t outlen, const char *denormal)
     REPLACE(out, outlen, "IIII", "IV");
     REPLACE(out, outlen, "VIV", "IX");
     REPLACE(out, outlen, "VV", "X");
+    REPLACE(out, outlen, "XXXXX", "L");
 
     return 0;
 }

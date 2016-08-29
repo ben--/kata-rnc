@@ -1,12 +1,12 @@
 pub fn normalize(num: &str) -> String {
     let num = num.replace("IIIII", "V");
     let num = num.replace("IIII", "IV");
-    let num = num.replace("VIV", "IX");
     let num = num.replace("VV", "X");
+    let num = num.replace("VIV", "IX");
     let num = num.replace("XXXXX", "L");
     let num = num.replace("XXXX", "XL");
-    let num = num.replace("LXL", "XC");
     let num = num.replace("LL", "C");
+    let num = num.replace("LXL", "XC");
     let num = num.replace("CCCCC", "D");
     let num = num.replace("CCCC", "CD");
     num
@@ -64,6 +64,11 @@ mod tests {
     #[test]
     fn lxxxxx_becomes_c() {
         assert_eq!("C", normalize("LXXXXX"));
+    }
+
+    #[test]
+    fn llxl_becomes_cxl() {
+        assert_eq!("CXL", normalize("LLXL"));
     }
 
     #[test]

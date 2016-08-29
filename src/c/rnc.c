@@ -66,6 +66,7 @@ int rnc_normalize(char *buf, size_t buflen)
     REPLACE(buf, buflen, "VIV", "IX");
     REPLACE(buf, buflen, "VV", "X");
     REPLACE(buf, buflen, "XXXXX", "L");
+    REPLACE(buf, buflen, "XXXX", "XL");
 
     return 0;
 }

@@ -54,6 +54,7 @@ int main(int argc, char **argv)
     tests++; errs += _sum("L", "I", "LI");
     tests++; errs += _sum("L", "XI", "LXI");
     tests++; errs += _sum("XLIX", "I", "L");
+    tests++; errs += _sum("XX", "XX", "XL");
 
     tests++; errs += _fail("I", "I", 2);
     //tests++; errs += _fail("IL", "I", 32);

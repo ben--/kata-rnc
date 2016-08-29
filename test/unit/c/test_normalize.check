@@ -57,3 +57,6 @@ static void _test(const char *expected, const char *denormal) {
 
 # test ccccc
     _test("D", "CCCCC");
+
+# test dd
+    _test("M", "DD");

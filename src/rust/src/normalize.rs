@@ -66,6 +66,7 @@ mod tests {
         assert_eq!("CD", normalize("CCCC"));
     }
 
+    #[test]
     fn ccccc_becomes_d() {
         assert_eq!("D", normalize("CCCCC"));
     }

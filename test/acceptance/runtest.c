@@ -60,6 +60,7 @@ int main(int argc, char **argv)
     tests++; errs += _sum("XCIX", "II", "CI");
     tests++; errs += _sum("CC", "CC", "CD");
     tests++; errs += _sum("CDXCIX", "I", "D");
+    tests++; errs += _sum("DCD", "C", "M");
 
     tests++; errs += _fail("I", "I", 2);
     //tests++; errs += _fail("IL", "I", 32);

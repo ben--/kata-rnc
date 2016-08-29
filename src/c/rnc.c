@@ -72,6 +72,7 @@ int rnc_normalize(char *buf, size_t buflen)
     REPLACE(buf, buflen, "LL", "C");
     REPLACE(buf, buflen, "CCCCC", "D");
     REPLACE(buf, buflen, "CCCC", "CD");
+    REPLACE(buf, buflen, "DD", "M");
 
     return 0;
 }

@@ -4,6 +4,7 @@ pub fn normalize(num: &str) -> String {
     let num = num.replace("VIV", "IX");
     let num = num.replace("VV", "X");
     let num = num.replace("XXXXX", "L");
+    let num = num.replace("XXXX", "XL");
     num
 }
 
@@ -39,5 +40,10 @@ mod tests {
     #[test]
     fn xxxxx_becomes_l() {
         assert_eq!("L", normalize("XXXXX"));
+    }
+
+    #[test]
+    fn xxxx_becomes_xl() {
+        assert_eq!("XL", normalize("XXXX"));
     }
 }

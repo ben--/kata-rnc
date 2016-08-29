@@ -57,6 +57,7 @@ fn merge(num_l: String, num_r: String) -> String {
 pub fn denormalize(num: &str) -> String {
     let num = num.replace("IV", "IIII");
     let num = num.replace("IX", "VIIII");
+    let num = num.replace("XL", "XXXX");
     num
 }
 
@@ -65,6 +66,7 @@ pub fn normalize(num: &str) -> String {
     let num = num.replace("IIII", "IV");
     let num = num.replace("VIV", "IX");
     let num = num.replace("VV", "X");
+    let num = num.replace("XXXXX", "L");
     num
 }
 
@@ -184,6 +186,11 @@ mod tests {
     }
 
     #[test]
+    fn denormalize_xl() {
+        assert_eq!("XXXX", denormalize("XL"));
+    }
+
+    #[test]
     fn normalize_iiiii() {
         assert_eq!("V", normalize("IIIII"));
     }
@@ -208,4 +215,8 @@ mod tests {
         assert_eq!("X", normalize("VIIIII"));
     }
 
+    #[test]
+    fn normalize_xxxxx() {
+        assert_eq!("L", normalize("XXXXX"));
+    }
 }

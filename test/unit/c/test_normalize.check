@@ -13,11 +13,11 @@ static void _test(const char *expected, const char *denormal) {
     ck_assert_str_eq(expected, actual_val);
 }
 
-# test iiiii
-    _test("V", "IIIII");
-
 # test iiii
     _test("IV", "IIII");
+
+# test iiiii
+    _test("V", "IIIII");
 
 # test vv
     _test("X", "VV");
@@ -42,3 +42,9 @@ static void _test(const char *expected, const char *denormal) {
 
 # test xxxx
     _test("XL", "XXXX");
+
+# test lxxxx
+    _test("XC", "LXXXX");
+
+# test lxxxxx
+    _test("C", "LXXXXX");

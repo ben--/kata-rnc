@@ -26,3 +26,9 @@ static void _test(const char *normal, const char *expected) {
 
 # test xl
     _test("XL", "XXXX");
+
+# test xlix
+    _test("XLIX", "XXXXVIIII");
+
+# test xc
+    _test("XC", "LXXXX");

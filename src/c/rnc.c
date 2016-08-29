@@ -53,8 +53,9 @@ int rnc_denormalize(char *out, size_t outlen, const char *normal)
     strcpy(out, normal);
 
     REPLACE(out, outlen, "IV", "IIII");
-    REPLACE(out, outlen, "XL", "XXXX");
     REPLACE(out, outlen, "IX", "VIIII");
+    REPLACE(out, outlen, "XL", "XXXX");
+    REPLACE(out, outlen, "XC", "LXXXX");
 
     return 0;
 }
@@ -67,6 +68,8 @@ int rnc_normalize(char *buf, size_t buflen)
     REPLACE(buf, buflen, "VV", "X");
     REPLACE(buf, buflen, "XXXXX", "L");
     REPLACE(buf, buflen, "XXXX", "XL");
+    REPLACE(buf, buflen, "LXL", "XC");
+    REPLACE(buf, buflen, "LL", "C");
 
     return 0;
 }

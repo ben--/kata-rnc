@@ -37,13 +37,15 @@ int rnc_add(char *sum, size_t sumlen, const char *raw_l, const char *raw_r)
     return 0;
 }
 
-
 int rnc_denormalize(char *out, size_t outlen, const char *normal)
 {
     char *tail;
     strcpy(out, normal);
     if (NULL != (tail = strstr(out, "IV"))) {
         strcpy(tail, "IIII");
+    }
+    if (NULL != (tail = strstr(out, "XL"))) {
+        strcpy(tail, "XXXX");
     }
     if (NULL != (tail = strstr(out, "IX"))) {
         strcpy(tail, "VIIII");

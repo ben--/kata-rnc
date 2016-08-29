@@ -1,0 +1,49 @@
+#include "replace.h"
+
+# test replace_has_no_effect_when_no_change_is_made
+    char foo[] = "aaaaa";
+    
+    int ret = REPLACE(foo, sizeof(foo), "b", "c");
+
+    ck_assert_int_eq(0, ret);
+    ck_assert_str_eq("aaaaa", foo);
+
+# test replace_will_perform_a_single_character_replacement
+    char foo[] = "aabaa";
+    
+    int ret = REPLACE(foo, sizeof(foo), "b", "c");
+
+    ck_assert_int_eq(0, ret);
+    ck_assert_str_eq("aacaa", foo);
+
+# test replace_will_perform_a_multi_character_replacement
+    char foo[] = "aabcdaa";
+
+    int ret = REPLACE(foo, sizeof(foo), "bcd", "efg");
+
+    ck_assert_int_eq(0, ret);
+    ck_assert_str_eq("aaefgaa", foo);
+
+# test replace_will_shrink_string_when_necessary
+    char foo[] = "aabcdaa";
+
+    int ret = REPLACE(foo, sizeof(foo), "bcd", "e");
+
+    ck_assert_int_eq(0, ret);
+    ck_assert_str_eq("aaeaa", foo);
+
+# test replace_will_grow_string_when_necessary
+    char foo[10] = "aabaa";
+
+    int ret = REPLACE(foo, sizeof(foo), "b", "efg");
+
+    ck_assert_int_eq(0, ret);
+    ck_assert_str_eq("aaefgaa", foo);
+
+# test replace_will_return_an_error_when_insufficient_size_exists
+    char foo[] = "aabaa";
+
+    int ret = REPLACE(foo, sizeof(foo), "b", "ef");
+
+    ck_assert_int_ne(0, ret);
+

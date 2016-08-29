@@ -24,26 +24,26 @@ bool rnc_larger(char l, char r)
 
 int rnc_add(char *sum, size_t sumlen, const char *raw_l, const char *raw_r)
 {
-    char buf_l[12], buf_r[12];
+    char buf_l[12], buf_r[12], buf_sum[32];
     rnc_denormalize(buf_l, sizeof(buf_l), raw_l);
     rnc_denormalize(buf_r, sizeof(buf_r), raw_r);
 
     char *num_l = buf_l;
     char *num_r = buf_r;
-    char *out = sum;
+    char *out = buf_sum;
     while (*num_l || *num_r) {
         if (rnc_larger(*num_l, *num_r)) {
-            if (out > sum + sumlen - sizeof("")) return 1;
             *out++ = *num_l++;
         } else {
-            if (out > sum + sumlen - sizeof("")) return 1;
             *out++ = *num_r++;
         }
     }
-    if (out > sum + sumlen - sizeof("")) return 1;
     *out = '\0';
 
-    rnc_normalize(sum, sumlen);
+    rnc_normalize(buf_sum, sizeof(buf_sum));
+
+    if (strlen(buf_sum) > sumlen - sizeof("")) return 1;
+    strcpy(sum, buf_sum);
 
     return 0;
 }

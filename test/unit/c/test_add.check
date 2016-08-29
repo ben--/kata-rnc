@@ -65,3 +65,13 @@ static void _test(const char *expected, const char *l, const char *r) {
 
     ck_assert_int_ne(0, actual_ret);
     ck_assert_int_eq(0, memcmp(heap + 2, "adad", sizeof(heap) - 2));
+
+# test does_not_fail_when_incoming_buffer_is_big_enough_for_normalized_sum
+    int actual_ret;
+    char heap[] = { '*', '*', 'a', 'd', 'a', 'd' };
+
+    actual_ret = rnc_add(heap, 2, "IV", "I");
+
+    ck_assert_int_eq(0, actual_ret);
+    ck_assert_str_eq("V", heap);
+    ck_assert_int_eq(0, memcmp(heap + 2, "adad", sizeof(heap) - 2));

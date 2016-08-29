@@ -48,3 +48,12 @@ static void _test(const char *expected, const char *denormal) {
 
 # test lxxxxx
     _test("C", "LXXXXX");
+
+# test ll
+    _test("C", "LL");
+
+# test cccc
+    _test("CD", "CCCC");
+
+# test ccccc
+    _test("D", "CCCCC");

@@ -24,7 +24,7 @@ bool rnc_larger(char l, char r)
 
 int rnc_add(char *sum, size_t sumlen, const char *raw_l, const char *raw_r)
 {
-    char buf_l[12], buf_r[12], buf_sum[32];
+    char buf_l[20], buf_r[20], buf_sum[32];
     rnc_denormalize(buf_l, sizeof(buf_l), raw_l);
     rnc_denormalize(buf_r, sizeof(buf_r), raw_r);
 
@@ -52,12 +52,12 @@ int rnc_denormalize(char *out, size_t outlen, const char *normal)
 {
     strcpy(out, normal);
 
-    REPLACE(out, outlen, "IV", "IIII");
-    REPLACE(out, outlen, "IX", "VIIII");
-    REPLACE(out, outlen, "XL", "XXXX");
-    REPLACE(out, outlen, "XC", "LXXXX");
-
-    return 0;
+    return
+        REPLACE(out, outlen, "IV", "IIII") ||
+        REPLACE(out, outlen, "IX", "VIIII") ||
+        REPLACE(out, outlen, "XL", "XXXX") ||
+        REPLACE(out, outlen, "XC", "LXXXX") ||
+        REPLACE(out, outlen, "CD", "CCCC");
 }
 
 int rnc_normalize(char *buf, size_t buflen)
@@ -70,6 +70,8 @@ int rnc_normalize(char *buf, size_t buflen)
     REPLACE(buf, buflen, "XXXX", "XL");
     REPLACE(buf, buflen, "LXL", "XC");
     REPLACE(buf, buflen, "LL", "C");
+    REPLACE(buf, buflen, "CCCCC", "D");
+    REPLACE(buf, buflen, "CCCC", "CD");
 
     return 0;
 }

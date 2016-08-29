@@ -6,6 +6,9 @@ use std::ffi::CStr;
 use std::ffi::CString;
 use std::os::raw::c_char;
 
+mod cmp;
+pub use cmp::cmp;
+
 mod rnc;
 
 #[no_mangle]

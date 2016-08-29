@@ -13,27 +13,42 @@
 
 # test v_larger_than_i
     ck_assert(rnc_larger('V', 'I'));
-
 # test i_smaller_than_v
     ck_assert(!rnc_larger('I', 'V'));
-
 # test v_not_larger_than_v
     ck_assert(!rnc_larger('V', 'V'));
 
 # test x_larger_than_v
     ck_assert(rnc_larger('X', 'V'));
-
 # test v_smaller_than_x
     ck_assert(!rnc_larger('V', 'X'));
-
 # test x_not_larger_than_x
     ck_assert(!rnc_larger('X', 'X'));
 
 # test l_larger_than_x
     ck_assert(rnc_larger('L', 'X'));
-
 # test x_smaller_than_l
     ck_assert(!rnc_larger('X', 'L'));
-
 # test l_not_larger_than_l
     ck_assert(!rnc_larger('L', 'L'));
+
+# test c_larger_than_l
+    ck_assert(rnc_larger('C', 'L'));
+# test l_smaller_than_c
+    ck_assert(!rnc_larger('L', 'C'));
+# test c_not_larger_than_c
+    ck_assert(!rnc_larger('C', 'C'));
+
+# test d_larger_than_c
+    ck_assert(rnc_larger('D', 'C'));
+# test c_smaller_than_d
+    ck_assert(!rnc_larger('C', 'D'));
+# test d_not_larger_than_d
+    ck_assert(!rnc_larger('D', 'D'));
+
+# test m_larger_than_d
+    ck_assert(rnc_larger('M', 'D'));
+# test d_smaller_than_m
+    ck_assert(!rnc_larger('D', 'M'));
+# test m_not_larger_than_m
+    ck_assert(!rnc_larger('M', 'M'));

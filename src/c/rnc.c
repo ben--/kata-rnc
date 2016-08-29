@@ -9,6 +9,12 @@ bool rnc_larger(char l, char r)
 {
     if (!r) return true;
     else if (!l) return false;
+    else if (r == 'M') return false;
+    else if (l == 'M') return true;
+    else if (r == 'D') return false;
+    else if (l == 'D') return true;
+    else if (r == 'C') return false;
+    else if (l == 'C') return true;
     else if (r == 'L') return false;
     else if (l == 'L') return true;
     else if (r == 'X') return false;

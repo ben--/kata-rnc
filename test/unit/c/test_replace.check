@@ -8,7 +8,7 @@
     ck_assert_int_eq(0, ret);
     ck_assert_str_eq("aaaaa", foo);
 
-# test replace_will_perform_a_single_character_replacement
+# test replace_performs_a_single_character_replacement
     char foo[] = "aabaa";
     
     int ret = REPLACE(foo, sizeof(foo), "b", "c");
@@ -16,7 +16,7 @@
     ck_assert_int_eq(0, ret);
     ck_assert_str_eq("aacaa", foo);
 
-# test replace_will_perform_a_multi_character_replacement
+# test replace_performs_a_multi_character_replacement
     char foo[] = "aabcdaa";
 
     int ret = REPLACE(foo, sizeof(foo), "bcd", "efg");
@@ -24,7 +24,7 @@
     ck_assert_int_eq(0, ret);
     ck_assert_str_eq("aaefgaa", foo);
 
-# test replace_will_shrink_string_when_necessary
+# test replace_shrinks_string_when_necessary
     char foo[] = "aabcdaa";
 
     int ret = REPLACE(foo, sizeof(foo), "bcd", "e");
@@ -32,7 +32,7 @@
     ck_assert_int_eq(0, ret);
     ck_assert_str_eq("aaeaa", foo);
 
-# test replace_will_grow_string_when_necessary
+# test replace_grows_string_when_necessary
     char foo[10] = "aabaa";
 
     int ret = REPLACE(foo, sizeof(foo), "b", "efg");
@@ -40,10 +40,25 @@
     ck_assert_int_eq(0, ret);
     ck_assert_str_eq("aaefgaa", foo);
 
-# test replace_will_return_an_error_when_insufficient_size_exists
+# test replace_returns_an_error_when_insufficient_size_exists_for_trailing_null
     char foo[] = "aabaa";
 
     int ret = REPLACE(foo, sizeof(foo), "b", "ef");
 
     ck_assert_int_ne(0, ret);
 
+# test replace_can_work_at_front_edge_of_string
+    char foo[10] = "baa";
+
+    int ret = REPLACE(foo, sizeof(foo), "b", "ef");
+
+    ck_assert_int_eq(0, ret);
+    ck_assert_str_eq("efaa", foo);
+
+# test replace_can_work_at_back_edge_of_string
+    char foo[10] = "aab";
+
+    int ret = REPLACE(foo, sizeof(foo), "b", "ef");
+
+    ck_assert_int_eq(0, ret);
+    ck_assert_str_eq("aaef", foo);

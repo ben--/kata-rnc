@@ -9,6 +9,7 @@ pub fn normalize(num: &str) -> String {
     let num = num.replace("LXL", "XC");
     let num = num.replace("CCCCC", "D");
     let num = num.replace("CCCC", "CD");
+    let num = num.replace("DD", "M");
     num
 }
 
@@ -62,8 +63,18 @@ mod tests {
     }
 
     #[test]
+    fn lxl_becomes_xc() {
+        assert_eq!("XC", normalize("LXL"));
+    }
+
+    #[test]
     fn lxxxxx_becomes_c() {
         assert_eq!("C", normalize("LXXXXX"));
+    }
+
+    #[test]
+    fn ll_becomes_c() {
+        assert_eq!("C", normalize("LL"));
     }
 
     #[test]
@@ -79,5 +90,10 @@ mod tests {
     #[test]
     fn ccccc_becomes_d() {
         assert_eq!("D", normalize("CCCCC"));
+    }
+
+    #[test]
+    fn dd_becomes_m() {
+        assert_eq!("M", normalize("DD"));
     }
 }

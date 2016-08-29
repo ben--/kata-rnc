@@ -38,3 +38,11 @@ static void _test(const char *expected, const char *l, const char *r) {
 
 # test i_plus_l_supports_l
     _test("LI", "L", "I");
+
+# test i_plus_i_fails_to_put_answer_in_a_too_short_buffer
+    int actual_ret;
+    char actual_sum[] = { '\0', '\0' };
+
+    actual_ret = rnc_add(actual_sum, sizeof(actual_sum), "I", "I");
+
+    ck_assert_int_ne(0, actual_ret);

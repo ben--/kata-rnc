@@ -21,6 +21,20 @@ static int _sum(const char *l, const char *r, const char *expected_sum)
     return 0;
 }
 
+static int _fail(const char *l, const char *r, size_t buflen)
+{
+    char buf[256] = { 'u', 'n', 'i', 't', 'i', 'a', 'l', 'i', 'z', 'e', 'd' };
+
+    int actual_ret = rnc_add(buf, buflen, l, r);
+
+    if (0 == actual_ret) {
+        fprintf(stderr, "Did not fail when putting %s + %s in a %lu character buffer\n", l, r, buflen);
+        return 1;
+    }
+
+    return 0;
+}
+
 int main(int argc, char **argv)
 {
     int errs = 0, tests = 0;
@@ -40,7 +54,9 @@ int main(int argc, char **argv)
     tests++; errs += _sum("L", "I", "LI");
     tests++; errs += _sum("L", "XI", "LXI");
     tests++; errs += _sum("XLIX", "I", "L");
-    // _fail("IL", "I");
+
+    tests++; errs += _fail("I", "I", 2);
+    //tests++; errs += _fail("IL", "I", 32);
 
     printf("test result: %d passed, %d failed\n", tests - errs, errs);
 

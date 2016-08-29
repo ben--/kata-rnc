@@ -38,6 +38,7 @@ int rnc_add(char *sum, size_t sumlen, const char *raw_l, const char *raw_r)
             *out++ = *num_r++;
         }
     }
+    if (out > sum + sumlen - sizeof("")) return 1;
     *out = '\0';
 
     rnc_normalize(sum, sumlen);

@@ -29,6 +29,9 @@ TEST_SRCS=$(wildcard test/unit/c/*.check)
 TEST_BINS=$(TEST_SRCS:test/unit/c/%.check=unit-test/c/%)
 TEST_OBJS=$(SRCS:src/c/%.c=unit-test/c/%.o)
 
+TEST_CFLAGS=-fsanitize=address
+TEST_LIBS=-lcheck -lasan
+
 .PHONY: unit-test
 unit-test: $(TEST_BINS:%=run-%)
 
@@ -37,13 +40,13 @@ $(TEST_BINS:%=run-%): run-%: %
 	cd unit-test/c && ./$(@F)
 
 $(TEST_BINS): unit-test/c/%: unit-test/c/%.o $(TEST_OBJS)
-	$(CC) $(LDFLAGS) $^ -lcheck -o $@
+	$(CC) $(LDFLAGS) $^ $(TEST_LIBS) -o $@
 
 unit-test/c/%.o: src/c/%.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 unit-test/c/%.o: unit-test/c/%.c
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(TEST_CFLAGS) -c $< -o $@
 
 unit-test/c/%.c: test/unit/c/%.check
 	checkmk $< > $@

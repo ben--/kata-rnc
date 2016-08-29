@@ -35,3 +35,6 @@ static void _test(const char *normal, const char *expected) {
 
 # test cd
     _test("CD", "CCCC");
+
+# test cm
+    _test("CM", "DCCCC");

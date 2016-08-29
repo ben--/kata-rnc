@@ -64,5 +64,14 @@ static void _test(const char *expected, const char *denormal) {
 # test ccccc
     _test("D", "CCCCC");
 
+# test dcccc
+    _test("CM", "DCCCC");
+
+# test dccccc
+    _test("M", "DCCCCC");
+
 # test dd
     _test("M", "DD");
+
+# test ddcd_becomes_mcd
+    _test("MCD", "DDCD");

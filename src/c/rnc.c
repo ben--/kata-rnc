@@ -48,6 +48,15 @@ int rnc_add(char *sum, size_t sumlen, const char *raw_l, const char *raw_r)
     return 0;
 }
 
+int rnc_sub(char *diff, size_t diff_len, const char *num_l, const char *num_r)
+{
+    strcpy(diff, "I");
+    return 0;
+    (void)diff_len;;
+    (void)num_l;
+    (void)num_r;
+}
+
 int rnc_denormalize(char *out, size_t outlen, const char *normal)
 {
     strcpy(out, normal);

@@ -35,6 +35,24 @@ static int _add_fail(const char *l, const char *r, size_t buflen)
     return 0;
 }
 
+static int _sub(const char *l, const char *r, const char *expected_dif)
+{
+    char actual_dif[256] = { 'u', 'n', 'i', 't', 'i', 'a', 'l', 'i', 'z', 'e', 'd' };
+
+    int actual_ret = rnc_sub(actual_dif, sizeof(actual_dif), l, r);
+
+    if (0 != actual_ret) {
+        fprintf(stderr, "Failed subtracting %s - %s: ret = %d\n", l, r, actual_ret);
+        return 1;
+    }
+    if (0 != strcmp(expected_dif, actual_dif)) {
+        fprintf(stderr, "Failed subtracting %s - %s: %s != %s\n", l, r, actual_dif, expected_dif);
+        return 1;
+    }
+
+    return 0;
+}
+
 int main(int argc, char **argv)
 {
     int errs = 0, tests = 0;
@@ -69,6 +87,8 @@ int main(int argc, char **argv)
 
     tests++; errs += _add_fail("I", "I", 2);
     //tests++; errs += _add_fail("IL", "I", 32);
+
+    tests++; errs += _sub("II", "I", "I");
 
     printf("test result: %d passed, %d failed\n", tests - errs, errs);
 

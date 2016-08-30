@@ -53,6 +53,20 @@ static int _sub(const char *l, const char *r, const char *expected_dif)
     return 0;
 }
 
+static int _sub_fail(const char *l, const char *r)
+{
+    char buf[256] = { 'u', 'n', 'i', 't', 'i', 'a', 'l', 'i', 'z', 'e', 'd' };
+
+    int actual_ret = rnc_sub(buf, sizeof(buf), l, r);
+
+    if (0 == actual_ret) {
+        fprintf(stderr, "Did not fail when subtracting %s - %s\n", l, r);
+        return 1;
+    }
+
+    return 0;
+}
+
 int main(int argc, char **argv)
 {
     int errs = 0, tests = 0;
@@ -90,6 +104,7 @@ int main(int argc, char **argv)
 
     tests++; errs += _sub("II", "I", "I");
     tests++; errs += _sub("III", "I", "II");
+    tests++; errs += _sub_fail("I", "II");
 
     printf("test result: %d passed, %d failed\n", tests - errs, errs);
 

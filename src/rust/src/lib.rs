@@ -37,13 +37,18 @@ pub extern fn rnc_add(dst: *mut c_char, dstlen: size_t, num_l: *const c_char, nu
 #[no_mangle]
 pub extern fn rnc_sub(dst: *mut c_char, dstlen: size_t, num_l: *const c_char, num_r: *const c_char) -> c_int {
     unsafe {
-        let diff = sub(CStr::from_ptr(num_l).to_str().unwrap(), CStr::from_ptr(num_r).to_str().unwrap());
-        //if sum.len() > (dstlen - 1) {
-            //1
-        //} else {
-            let cdiff = CString::new(diff).unwrap();
-            strncpy(dst, cdiff.as_ptr() as *const i8, dstlen);
-            0
-        //}
+        match sub(CStr::from_ptr(num_l).to_str().unwrap(), CStr::from_ptr(num_r).to_str().unwrap()) {
+            Ok(difference) => {
+                //if sum.len() > (dstlen - 1) {
+                //1
+                //} else {
+                let cdiff = CString::new(difference).unwrap();
+                strncpy(dst, cdiff.as_ptr() as *const i8, dstlen);
+                0
+            },
+            Err(_) => {
+                1
+            }
+        }
     }
 }

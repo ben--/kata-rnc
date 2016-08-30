@@ -12,8 +12,20 @@ static void _test(const char *l, const char *r, const char *expected) {
     ck_assert_str_eq(expected, actual_diff);
 }
 
+static void _test_fail(const char *l, const char *r) {
+    int actual_ret;
+    char actual_diff[32] = { 'u', 'n', 'i', 't', 'i', 'a', 'l', 'i', 'z', 'e', 'd' };
+
+    actual_ret = rnc_sub(actual_diff, sizeof(actual_diff), l, r);
+
+    ck_assert_int_ne(0, actual_ret);
+}
+
 # test ii_minus_i
     _test("II", "I", "I");
 
 # test iii_minus_i
     _test("III", "I", "II");
+
+# test i_minus_ii_fails_on_negative
+    _test_fail("I", "II");

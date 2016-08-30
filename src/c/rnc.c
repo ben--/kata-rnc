@@ -42,7 +42,9 @@ int rnc_add(char *sum, size_t sumlen, const char *raw_l, const char *raw_r)
 
     rnc_normalize(buf_sum, sizeof(buf_sum));
 
-    if (strlen(buf_sum) > sumlen - sizeof("")) return 1;
+    if (strlen(buf_sum) > sumlen - sizeof("")) {
+        return 1;
+    }
     strcpy(sum, buf_sum);
 
     return 0;
@@ -50,6 +52,9 @@ int rnc_add(char *sum, size_t sumlen, const char *raw_l, const char *raw_r)
 
 int rnc_sub(char *diff, size_t diff_len, const char *num_l, const char *num_r)
 {
+    if (!strstr(num_l, num_r)) {
+        return 1;
+    }
     strcpy(diff, num_l);
     replace(diff, diff_len, num_r, strlen(num_r), "", strlen(""));
     return 0;

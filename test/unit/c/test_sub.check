@@ -1,0 +1,19 @@
+#include "rnc.h"
+
+# suite sub
+
+static void _test(const char *l, const char *r, const char *expected) {
+    int actual_ret;
+    char actual_diff[32] = { 'u', 'n', 'i', 't', 'i', 'a', 'l', 'i', 'z', 'e', 'd' };
+
+    actual_ret = rnc_sub(actual_diff, sizeof(actual_diff), l, r);
+
+    ck_assert_int_eq(0, actual_ret);
+    ck_assert_str_eq(expected, actual_diff);
+}
+
+# test ii_minus_i
+    _test("II", "I", "I");
+
+# test iii_minus_i
+    _test("III", "I", "II");

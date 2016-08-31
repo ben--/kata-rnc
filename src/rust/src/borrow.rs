@@ -1,8 +1,14 @@
 pub fn borrow(num: &str, digit: char) -> Result<String, &'static str> {
-    if num == "V" {
-        Ok("IIIII".to_string())
-    } else {
-        Ok(num.to_string())
+    match digit {
+        'V' => {
+            Ok(num.to_string().replace("X", "VV"))
+        },
+        'I' => {
+            Ok(num.replace("V", "IIIII"))
+        },
+        _ => {
+            Ok(num.to_string())
+        }
     }
 }
 
@@ -16,7 +22,17 @@ mod tests {
     }
 
     #[test]
-    fn borrow_v_i() {
+    fn borrow_i_from_v() {
         assert_eq!("IIIII", borrow("V", 'I').unwrap());
+    }
+
+    #[test]
+    fn borrow_v_from_x() {
+        assert_eq!("VV", borrow("X", 'V').unwrap());
+    }
+
+    #[test]
+    fn borrow_v_from_cx() {
+        assert_eq!("CVV", borrow("CX", 'V').unwrap());
     }
 }

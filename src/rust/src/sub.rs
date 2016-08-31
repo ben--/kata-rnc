@@ -12,7 +12,7 @@ pub fn sub(num_l: &str, num_r: &str) -> Result<String, &'static str> {
             Ok(lhs[end..lhs.len()].to_string())
         },
         None => {
-            let lhs = borrow(lhs.as_ref(), 'I').unwrap();
+            let lhs = borrow(lhs.as_ref(), rhs.chars().next().unwrap()).unwrap();
             match lhs.find(&rhs) {
                 Some(begin) => {
                     let end = begin + rhs.len();
@@ -58,5 +58,10 @@ mod tests {
     #[test]
     fn sub_v_iv_denormalizes_rhs_before_subtracting() {
         assert_eq!("I", sub("V", "IV").unwrap());
+    }
+
+    #[test]
+    fn sub_x_v_borrows_v_from_x() {
+        assert_eq!("V", sub("X", "V").unwrap());
     }
 }

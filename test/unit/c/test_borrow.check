@@ -5,13 +5,31 @@
 # test cannot_borrow_i_from_ii
     char buf[6] = "II";
 
-    rnc_borrow(buf, sizeof(buf), 'I');
+    int actual_ret = rnc_borrow(buf, sizeof(buf), 'I');
 
+    ck_assert_int_eq(0, actual_ret);
     ck_assert_str_eq("II", buf);
 
 # test can_borrow_i_from_v
     char buf[6] = "V";
 
-    rnc_borrow(buf, sizeof(buf), 'I');
+    int actual_ret = rnc_borrow(buf, sizeof(buf), 'I');
 
+    ck_assert_int_eq(0, actual_ret);
     ck_assert_str_eq("IIIII", buf);
+
+# test can_borrow_v_from_x
+    char buf[3] = "X";
+
+    int actual_ret = rnc_borrow(buf, sizeof(buf), 'V');
+
+    ck_assert_int_eq(0, actual_ret);
+    ck_assert_str_eq("VV", buf);
+
+# test can_borrow_v_from_cx_will_perform_search
+    char buf[4] = "CX";
+
+    int actual_ret = rnc_borrow(buf, sizeof(buf), 'V');
+
+    ck_assert_int_eq(0, actual_ret);
+    ck_assert_str_eq("CVV", buf);

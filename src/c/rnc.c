@@ -74,6 +74,9 @@ int rnc_borrow(char *num, size_t numlen, char numeral)
     if (0 == strcmp(num, "V")) {
         strcpy(num, "IIIII");
     }
+    if ('V' == numeral) {
+        REPLACE(num, numlen, "X", "VV");
+    }
     return 0;
     (void)numlen;
     (void)numeral;

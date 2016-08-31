@@ -1,18 +1,20 @@
 use borrow;
+use denormalize;
 use normalize;
 
 pub fn sub(num_l: &str, num_r: &str) -> Result<String, &'static str> {
-    match num_l.find(num_r) {
+    let from = denormalize(num_l);
+    match from.find(num_r) {
         Some(begin) => {
             let end = begin + num_r.len();
-            Ok(num_l[end..num_l.len()].to_string())
+            Ok(from[end..from.len()].to_string())
         },
         None => {
-            let num_l = borrow(num_l, 'I').unwrap();
-            match num_l.find(num_r) {
+            let from = borrow(from.as_ref(), 'I').unwrap();
+            match from.find(num_r) {
                 Some(begin) => {
                     let end = begin + num_r.len();
-                    Ok(normalize(num_l[end..num_l.len()].as_ref()))
+                    Ok(normalize(from[end..from.len()].as_ref()))
                 },
                 None => {
                     Err("Romans don't know negative numbers")
@@ -44,5 +46,10 @@ mod tests {
     #[test]
     fn sub_v_i_normalizes_result() {
         assert_eq!("IV", sub("V", "I").unwrap());
+    }
+
+    #[test]
+    fn sub_iv_i_denormalizes_before_subtracting() {
+        assert_eq!("III", sub("IV", "I").unwrap());
     }
 }

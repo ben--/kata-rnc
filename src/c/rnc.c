@@ -52,12 +52,30 @@ int rnc_add(char *sum, size_t sumlen, const char *raw_l, const char *raw_r)
 
 int rnc_sub(char *diff, size_t diff_len, const char *num_l, const char *num_r)
 {
-    if (!strstr(num_l, num_r)) {
-        return 1;
+    char from[32];
+
+    strcpy(from, num_l);
+    if (!strstr(from, num_r)) {
+        rnc_borrow(from, sizeof(from), *num_r);
+        if (!strstr(from, num_r)) {
+            return 1;
+        }
     }
-    strcpy(diff, num_l);
+    strcpy(diff, from);
     replace(diff, diff_len, num_r, strlen(num_r), "", strlen(""));
+
+    rnc_normalize(diff, diff_len);
     return 0;
+}
+
+int rnc_borrow(char *num, size_t numlen, char numeral)
+{
+    if (0 == strcmp(num, "V")) {
+        strcpy(num, "IIIII");
+    }
+    return 0;
+    (void)numlen;
+    (void)numeral;
 }
 
 int rnc_denormalize(char *out, size_t outlen, const char *normal)

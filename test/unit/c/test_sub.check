@@ -29,3 +29,9 @@ static void _test_fail(const char *l, const char *r) {
 
 # test i_minus_ii_fails_on_negative
     _test_fail("I", "II");
+
+# test v_minus_ii_performs_a_borrow_operation_when_necessary
+    _test("V", "II", "III");
+
+# test v_minus_i_performs_a_normalize_before_return
+    _test("V", "I", "IV");

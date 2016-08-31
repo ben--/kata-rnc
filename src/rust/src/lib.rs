@@ -8,6 +8,9 @@ use std::os::raw::c_char;
 mod add;
 pub use add::add;
 
+mod borrow;
+pub use borrow::borrow;
+
 mod cmp;
 pub use cmp::cmp;
 

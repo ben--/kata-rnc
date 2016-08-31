@@ -52,17 +52,18 @@ int rnc_add(char *sum, size_t sumlen, const char *raw_l, const char *raw_r)
 
 int rnc_sub(char *diff, size_t diff_len, const char *num_l, const char *num_r)
 {
-    char from[32];
+    char buf_l[32], buf_r[20];
+    rnc_denormalize(buf_l, sizeof(buf_l), num_l);
+    rnc_denormalize(buf_r, sizeof(buf_r), num_r);
 
-    rnc_denormalize(from, sizeof(from), num_l);
-    if (!strstr(from, num_r)) {
-        rnc_borrow(from, sizeof(from), *num_r);
-        if (!strstr(from, num_r)) {
+    if (!strstr(buf_l, buf_r)) {
+        rnc_borrow(buf_l, sizeof(buf_l), *buf_r);
+        if (!strstr(buf_l, buf_r)) {
             return 1;
         }
     }
-    strcpy(diff, from);
-    replace(diff, diff_len, num_r, strlen(num_r), "", strlen(""));
+    strcpy(diff, buf_l);
+    replace(diff, diff_len, buf_r, strlen(buf_r), "", strlen(""));
 
     rnc_normalize(diff, diff_len);
     return 0;

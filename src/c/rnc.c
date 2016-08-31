@@ -71,15 +71,15 @@ int rnc_sub(char *diff, size_t diff_len, const char *num_l, const char *num_r)
 
 int rnc_borrow(char *num, size_t numlen, char numeral)
 {
-    if (0 == strcmp(num, "V")) {
-        strcpy(num, "IIIII");
-    }
-    if ('V' == numeral) {
-        REPLACE(num, numlen, "X", "VV");
+    switch (numeral) {
+        case 'I':
+            REPLACE(num, numlen, "V", "IIIII");
+            break;
+        case 'V':
+            REPLACE(num, numlen, "X", "VV");
+            break;
     }
     return 0;
-    (void)numlen;
-    (void)numeral;
 }
 
 int rnc_denormalize(char *out, size_t outlen, const char *normal)

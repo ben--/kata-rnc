@@ -1,0 +1,1 @@
+add does not overflow sum buffer when getting worst-case (longest) numbers (even when result is too big)

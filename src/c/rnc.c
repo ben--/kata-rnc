@@ -54,7 +54,7 @@ int rnc_sub(char *diff, size_t diff_len, const char *num_l, const char *num_r)
 {
     char from[32];
 
-    strcpy(from, num_l);
+    rnc_denormalize(from, sizeof(from), num_l);
     if (!strstr(from, num_r)) {
         rnc_borrow(from, sizeof(from), *num_r);
         if (!strstr(from, num_r)) {

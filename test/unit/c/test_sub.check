@@ -35,3 +35,6 @@ static void _test_fail(const char *l, const char *r) {
 
 # test v_minus_i_performs_a_normalize_before_return
     _test("V", "I", "IV");
+
+# test iv_minus_i_performs_a_denormalize_before_subtraction
+    _test("IV", "I", "III");

@@ -1,7 +1,7 @@
 pub fn borrow(num: &str, digit: char) -> Result<String, &'static str> {
     match digit {
         'V' => {
-            Ok(num.to_string().replace("X", "VV"))
+            Ok(num.replace("X", "VV"))
         },
         'I' => {
             Ok(num.replace("V", "IIIII"))

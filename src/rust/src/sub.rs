@@ -6,23 +6,29 @@ pub fn sub(num_l: &str, num_r: &str) -> Result<String, &'static str> {
     let lhs = denormalize(num_l);
     let rhs = denormalize(num_r);
 
-    match lhs.find(&rhs) {
-        Some(begin) => {
-            let end = begin + rhs.len();
-            Ok(lhs[end..lhs.len()].to_string())
-        },
-        None => {
-            let lhs = borrow(lhs.as_ref(), rhs.chars().next().unwrap()).unwrap();
-            match lhs.find(&rhs) {
-                Some(begin) => {
-                    let end = begin + rhs.len();
-                    Ok(normalize(lhs[end..lhs.len()].as_ref()))
-                },
-                None => {
-                    Err("Romans don't know negative numbers")
+    match rhs.chars().fold(Ok(lhs), |from, digit| {
+        match from {
+            Ok(remaining) => {
+                let parts: Vec<&str> = remaining.splitn(2, digit).collect();
+                if parts.len() == 2 {
+                    Ok(parts.join(""))
+                } else {
+                    let expanded = borrow(remaining.as_ref(), digit).unwrap();
+                    let expanded_parts: Vec<&str> = expanded.splitn(2, digit).collect();
+                    if expanded_parts.len() == 2 {
+                        Ok(expanded_parts.join(""))
+                    } else {
+                        Err("Could not borrow a letter")
+                    }
                 }
+            },
+            Err(e) => {
+                Err(e)
             }
         }
+    }) {
+        Ok(denorm) => { Ok(normalize(&denorm)) },
+        Err(e) => { Err(e) }
     }
 }
 
@@ -63,5 +69,10 @@ mod tests {
     #[test]
     fn sub_x_v_borrows_v_from_x() {
         assert_eq!("V", sub("X", "V").unwrap());
+    }
+
+    #[test]
+    fn sub_x_v_borrows_v_from_x_at_end_of_number() {
+        assert_eq!("CV", sub("CX", "V").unwrap());
     }
 }

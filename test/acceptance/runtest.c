@@ -108,7 +108,7 @@ int main(int argc, char **argv)
     tests++; errs += _sub("IV", "I", "III");
     tests++; errs += _sub("V", "IV", "I");
     tests++; errs += _sub("X", "V", "V");
-    //tests++; errs += _sub("X", "I", "IX");
+    tests++; errs += _sub("X", "I", "IX");
     //tests++; errs += _sub("X", "VI", "IV");
     tests++; errs += _sub("CX", "V", "CV");
 

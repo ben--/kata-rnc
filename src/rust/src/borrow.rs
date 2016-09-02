@@ -1,10 +1,12 @@
 pub fn borrow(num: &str, digit: char) -> Result<String, &'static str> {
     match digit {
         'V' => {
-            Ok(num.replace("X", "VV"))
+            let mut parts: Vec<&str> = num.rsplitn(2, "X").collect();
+            parts.reverse();
+            Ok(parts.join("VV"))
         },
         'I' => {
-            Ok(num.replace("V", "IIIII"))
+            Ok(num.replace("X", "VV").replace("V", "IIIII"))
         },
         _ => {
             Ok(num.to_string())
@@ -34,5 +36,10 @@ mod tests {
     #[test]
     fn borrow_v_from_cx() {
         assert_eq!("CVV", borrow("CX", 'V').unwrap());
+    }
+
+    #[test]
+    fn borrow_v_from_xx_only_borrows_once() {
+        assert_eq!("XVV", borrow("XX", 'V').unwrap());
     }
 }

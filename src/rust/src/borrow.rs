@@ -39,6 +39,11 @@ mod tests {
     }
 
     #[test]
+    fn borrow_i_from_x_borrows_transitively() {
+        assert_eq!("VIIIII", borrow("X", 'I').unwrap());
+    }
+
+    #[test]
     fn borrow_v_from_xx_only_borrows_once() {
         assert_eq!("XVV", borrow("XX", 'V').unwrap());
     }

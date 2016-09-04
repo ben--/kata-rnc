@@ -22,7 +22,7 @@ pub fn borrow(num: &str, needed: char) -> Result<String, &'static str> {
                         if needed == 'I' {
                             _ret = Ok(prefix.to_string() + "VIIIII");
                         } else {
-                            _ret = Ok(prefix.to_string() + "VV");
+                            _ret = Ok(prefix.to_string() + "VV" + suffix);
                         }
                     },
                     "V" => {
@@ -79,8 +79,8 @@ mod tests {
         assert_eq!("XVV", borrow("XX", 'V').unwrap());
     }
 
-    // FIXME
-    // fn borrow_v_from_cxi_returns_the_tail_part_properly() {
-    //     assert_eq!("CVVI", borrow("CXI", 'V').unwrap());
-    // }
+    #[test]
+    fn borrow_v_from_cxi_returns_the_tail_part_properly() {
+        assert_eq!("CVVI", borrow("CXI", 'V').unwrap());
+    }
 }

@@ -19,7 +19,11 @@ pub fn borrow(num: &str, needed: char) -> Result<String, &'static str> {
                 let (expand_char, suffix) = end.split_at(1);
                 match expand_char {
                     "X" => {
-                        _ret = Ok(prefix.to_string() + "VV");
+                        if needed == 'I' {
+                            _ret = Ok(prefix.to_string() + "VIIIII");
+                        } else {
+                            _ret = Ok(prefix.to_string() + "VV");
+                        }
                     },
                     "V" => {
                         _ret = Ok(prefix.to_string() + "IIIII");
@@ -41,7 +45,12 @@ mod tests {
     use super::borrow;
 
     #[test]
-    fn cannot_borrow_i_from_ii() {
+    fn cannot_get_something_from_nothing() {
+        assert!(borrow("", 'I').is_err());
+    }
+
+    #[test]
+    fn borrow_i_from_ii_returns_string_without_change() {
         assert_eq!("II", borrow("II", 'I').unwrap());
     }
 

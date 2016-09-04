@@ -13,12 +13,15 @@ pub fn sub(num_l: &str, num_r: &str) -> Result<String, &'static str> {
                 if parts.len() == 2 {
                     Ok(parts.join(""))
                 } else {
-                    let expanded = borrow(remaining.as_ref(), digit).unwrap();
-                    let expanded_parts: Vec<&str> = expanded.splitn(2, digit).collect();
-                    if expanded_parts.len() == 2 {
-                        Ok(expanded_parts.join(""))
-                    } else {
-                        Err("Could not borrow a letter")
+                    match borrow(remaining.as_ref(), digit) {
+                        Ok(expanded) => {
+                            borrow(remaining.as_ref(), digit).unwrap();
+                            let expanded_parts: Vec<&str> = expanded.splitn(2, digit).collect();
+                            Ok(expanded_parts.join(""))
+                        },
+                        Err(_) => {
+                            Err("Could not borrow a letter")
+                        }
                     }
                 }
             },
@@ -74,5 +77,15 @@ mod tests {
     #[test]
     fn sub_x_v_borrows_v_from_x_at_end_of_number() {
         assert_eq!("CV", sub("CX", "V").unwrap());
+    }
+
+    #[test]
+    fn sub_x_i_borrows_i_from_x_transitively() {
+        assert_eq!("IX", sub("X", "I").unwrap());
+    }
+
+    #[test]
+    fn sub_i_ii_returns_an_error() {
+        assert!(sub("I", "II").is_err());
     }
 }

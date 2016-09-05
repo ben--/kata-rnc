@@ -3,41 +3,33 @@ use std::cmp::Ordering;
 use cmp;
 
 pub fn borrow(num: &str, needed: char) -> Result<String, &'static str> {
-    let chars = num.as_bytes();
-    let mut _ret: Result<String, &str> = Err("FIXME1");
-    for i in (0..chars.len()).rev() {
-        match cmp(chars[i] as char, needed) {
-            Ordering::Less => {
-                //nop
-            },
-            Ordering::Equal => {
-                _ret = Ok(num.to_string());
-                break;
-            },
-            Ordering::Greater => {
-                let (prefix, end) = num.split_at(i);
-                let (expand_char, suffix) = end.split_at(1);
-                match expand_char {
-                    "X" => {
-                        if needed == 'I' {
-                            _ret = Ok(prefix.to_string() + "VIIIII");
-                        } else {
-                            _ret = Ok(prefix.to_string() + "VV" + suffix);
-                        }
-                    },
-                    "V" => {
-                        _ret = Ok(prefix.to_string() + "IIIII");
-                    },
-                    _ => {
-                        _ret = Err("unknown digit");
+    match num.rfind(|c| cmp(c, needed) != Ordering::Less) {
+        Some(i) => {
+            let (prefix, end) = num.split_at(i);
+            let (expand_char, suffix) = end.split_at(1);
+            match expand_char {
+                "X" => {
+                    if needed == 'I' {
+                        Ok(prefix.to_string() + "VIIIII")
+                    } else {
+                        Ok(prefix.to_string() + "VV" + suffix)
                     }
+                },
+                "V" => {
+                    Ok(prefix.to_string() + "IIIII")
+                },
+                "I" => {
+                    Ok(num.into())
+                },
+                _ => {
+                    Err("unknown digit")
                 }
-                break;
             }
+        },
+        None => {
+            Err("Would be a negative number")
         }
     }
-
-    _ret
 }
 
 #[cfg(test)]

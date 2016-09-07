@@ -2,32 +2,39 @@ use std::cmp::Ordering;
 
 use cmp;
 
-pub fn borrow(num: &str, needed: char) -> Result<String, &'static str> {
+pub fn borrow(num: &str, needed: char) -> Result<String, String> {
     match num.rfind(|c| cmp(c, needed) != Ordering::Less) {
         Some(i) => {
             let (prefix, end) = num.split_at(i);
             let (expand_char, suffix) = end.split_at(1);
-            match expand_char {
-                "X" => {
-                    if needed == 'I' {
-                        Ok(prefix.to_string() + "VIIIII")
-                    } else {
-                        Ok(prefix.to_string() + "VV" + suffix)
-                    }
-                },
-                "V" => {
-                    Ok(prefix.to_string() + "IIIII")
-                },
-                "I" => {
-                    Ok(num.into())
-                },
-                _ => {
-                    Err("unknown digit")
-                }
+            match expand_digit_to_make(expand_char.chars().next().unwrap(), needed) {
+                Ok(middle) => Ok(prefix.to_string() + middle.as_ref() + suffix),
+                Err(e) => Err(e),
             }
         },
         None => {
-            Err("Would be a negative number")
+            Err("Would be a negative number".into())
+        }
+    }
+}
+
+fn expand_digit_to_make(original: char, needed: char) -> Result<String, String> {
+    match original {
+        'X' => {
+            if needed == 'I' {
+                Ok("VIIIII".into())
+            } else {
+                Ok("VV".into())
+            }
+        },
+        'V' => {
+            Ok("IIIII".into())
+        },
+        'I' => {
+            Ok(original.to_string())
+        },
+        _ => {
+            Err(format!("Don't know how to borrow from {}", original))
         }
     }
 }

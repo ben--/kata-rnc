@@ -7,8 +7,8 @@ pub fn borrow(num: &str, needed: char) -> Result<String, String> {
         Some(i) => {
             let (prefix, end) = num.split_at(i);
             let (expand_char, suffix) = end.split_at(1);
-            match expand_digit_to_make(expand_char.chars().next().unwrap(), needed) {
-                Ok(middle) => Ok(prefix.to_string() + middle.as_ref() + suffix),
+            match expand_digit_to_make(expand_char.to_string(), needed) {
+                Ok(middle) => Ok(prefix.to_string() + &middle + suffix),
                 Err(e) => Err(e),
             }
         },
@@ -18,24 +18,15 @@ pub fn borrow(num: &str, needed: char) -> Result<String, String> {
     }
 }
 
-fn expand_digit_to_make(original: char, needed: char) -> Result<String, String> {
-    match original {
-        'X' => {
-            if needed == 'I' {
-                Ok("VIIIII".into())
-            } else {
-                Ok("VV".into())
-            }
+fn expand_digit_to_make(mut original: String, needed: char) -> Result<String, String> {
+    match original.pop() {
+        Some(c) if c == needed => {
+            original.push(c);
+            Ok(original)
         },
-        'V' => {
-            Ok("IIIII".into())
-        },
-        'I' => {
-            Ok(original.to_string())
-        },
-        _ => {
-            Err(format!("Don't know how to borrow from {}", original))
-        }
+        Some('X') => expand_digit_to_make(original + "VV", needed),
+        Some('V') => expand_digit_to_make(original + "IIIII", needed),
+        _ => Err(format!("Don't know how to borrow from {}", original))
     }
 }
 

@@ -49,3 +49,12 @@
 
     ck_assert_int_eq(0, actual_ret);
     ck_assert_str_eq("CVVI", buf);
+
+# test borrow_returns_an_error_on_overflow
+    char buf[4] = "CX";
+    buf[3] = '*';
+
+    int actual_ret = rnc_borrow(buf, sizeof(buf) - 1, 'V');
+
+    ck_assert_int_eq(1, actual_ret);
+    ck_assert_int_eq('*', buf[3]);

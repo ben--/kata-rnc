@@ -85,9 +85,15 @@ int rnc_borrow(char *num, size_t numlen, char numeral)
     strcpy(suffix, p+1);
 
     while (*p != numeral) {
+        const char *expand;
         switch (*p) {
-            case 'X': p = stpcpy(p, "VV"); break;
-            case 'V': p = stpcpy(p, "IIIII"); break;
+            case 'X': expand = "VV"; break;
+            case 'V': expand = "IIIII"; break;
+        }
+
+        p = stpncpy(p, expand, numlen - (p-num));
+        if (*p) {
+            return 1;
         }
         p--;
     }

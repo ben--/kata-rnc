@@ -33,3 +33,11 @@
 
     ck_assert_int_eq(0, actual_ret);
     ck_assert_str_eq("CVV", buf);
+
+# test can_borrow_i_from_x_will_transitively_expand
+    char buf[32] = "X";
+
+    int actual_ret = rnc_borrow(buf, sizeof(buf), 'I');
+
+    ck_assert_int_eq(0, actual_ret);
+    ck_assert_str_eq("VIIIII", buf);

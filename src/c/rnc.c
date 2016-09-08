@@ -73,15 +73,27 @@ int rnc_sub(char *diff, size_t diff_len, const char *num_l, const char *num_r)
 
 int rnc_borrow(char *num, size_t numlen, char numeral)
 {
-    switch (numeral) {
-        case 'I':
-            REPLACE(num, numlen, "V", "IIIII");
+    char buf[12];
+    char *p = num + strlen(num);
+
+    for (p = num + strlen(num); p >= num; p--) {
+        if (rnc_larger(*p, numeral)) {
             break;
-        case 'V':
-            REPLACE(num, numlen, "X", "VV");
-            break;
+        }
     }
+
+    strcpy(buf, p+1);
+
+    while (*p != numeral) {
+        switch (*p) {
+            case 'X': p = stpcpy(p, "VV"); break;
+            case 'V': p = stpcpy(p, "IIIII"); break;
+        }
+        p--;
+    }
+
     return 0;
+    (void)numlen;
 }
 
 int rnc_denormalize(char *out, size_t outlen, const char *normal)

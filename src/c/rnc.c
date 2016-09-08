@@ -73,7 +73,7 @@ int rnc_sub(char *diff, size_t diff_len, const char *num_l, const char *num_r)
 
 static const char *_expansion(char digit)
 {
-    switch (*p) {
+    switch (digit) {
         case 'X': return "VV";
         case 'V': return "IIIII";
     }
@@ -94,14 +94,18 @@ int rnc_borrow(char *num, size_t numlen, char numeral)
     strcpy(suffix, p+1);
 
     while (*p != numeral) {
-        p = stpncpy(p, expansion(*p), numlen - (p-num));
+        p = stpncpy(p, _expansion(*p), numlen - (p-num));
         if (*p) {
             return 1;
         }
         p--;
     }
+    p++;
 
-    strcpy(p+1, suffix);
+    p = stpncpy(p, suffix, numlen - (p-num));
+    if (*p) {
+        return 1;
+    }
 
     return 0;
     (void)numlen;

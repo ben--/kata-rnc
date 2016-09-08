@@ -58,3 +58,12 @@
 
     ck_assert_int_eq(1, actual_ret);
     ck_assert_int_eq('*', buf[3]);
+
+# test borrow_returns_an_error_on_suffix_overflow
+    char buf[5] = "CXI";
+    buf[4] = '*';
+
+    int actual_ret = rnc_borrow(buf, sizeof(buf) - 1, 'V');
+
+    ck_assert_int_eq(1, actual_ret);
+    ck_assert_int_eq('*', buf[4]);

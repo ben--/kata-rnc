@@ -41,3 +41,11 @@
 
     ck_assert_int_eq(0, actual_ret);
     ck_assert_str_eq("VIIIII", buf);
+
+# test can_borrow_v_from_cxi_will_transitively_expand_inner_letter
+    char buf[32] = "CXI";
+
+    int actual_ret = rnc_borrow(buf, sizeof(buf), 'V');
+
+    ck_assert_int_eq(0, actual_ret);
+    ck_assert_str_eq("CVVI", buf);

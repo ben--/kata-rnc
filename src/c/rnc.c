@@ -73,7 +73,7 @@ int rnc_sub(char *diff, size_t diff_len, const char *num_l, const char *num_r)
 
 int rnc_borrow(char *num, size_t numlen, char numeral)
 {
-    char buf[12];
+    char suffix[12];
     char *p = num + strlen(num);
 
     for (p = num + strlen(num); p >= num; p--) {
@@ -82,7 +82,7 @@ int rnc_borrow(char *num, size_t numlen, char numeral)
         }
     }
 
-    strcpy(buf, p+1);
+    strcpy(suffix, p+1);
 
     while (*p != numeral) {
         switch (*p) {
@@ -91,6 +91,8 @@ int rnc_borrow(char *num, size_t numlen, char numeral)
         }
         p--;
     }
+
+    strcpy(p+1, suffix);
 
     return 0;
     (void)numlen;

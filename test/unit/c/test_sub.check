@@ -38,3 +38,6 @@ static void _test_fail(const char *l, const char *r) {
 
 # test iv_minus_i_performs_a_denormalize_before_subtraction
     _test("IV", "I", "III");
+
+# test x_minus_vi_extracts_one_element_at_a_time
+    _test("X", "VI", "IV");

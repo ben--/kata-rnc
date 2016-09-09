@@ -58,15 +58,21 @@ int rnc_sub(char *diff, size_t diff_len, const char *num_l, const char *num_r)
     rnc_denormalize(buf_l, sizeof(buf_l), num_l);
     rnc_denormalize(buf_r, sizeof(buf_r), num_r);
 
-    if (!strstr(buf_l, buf_r)) {
-        rnc_borrow(buf_l, sizeof(buf_l), *buf_r);
-        if (!strstr(buf_l, buf_r)) {
-            return 1;
+    for (char *r = buf_r; *r; r++) {
+        char *l = strchr(buf_l, *r);
+        if (!l) {
+            if (0 != rnc_borrow(buf_l, sizeof(buf_l), *r)) {
+                return 1;
+            }
+            l = strchr(buf_l, *r);
+            if (!l) {
+                return 1;
+            }
         }
+        memmove(l, l+1, sizeof(buf_l) - (l-buf_l));
     }
-    strcpy(diff, buf_l);
-    replace(diff, diff_len, buf_r, strlen(buf_r), "", strlen(""));
 
+    strcpy(diff, buf_l);
     rnc_normalize(diff, diff_len);
     return 0;
 }
@@ -89,6 +95,9 @@ int rnc_borrow(char *num, size_t numlen, char numeral)
         if (rnc_larger(*p, numeral)) {
             break;
         }
+    }
+    if (p < num) {
+        return 1;
     }
 
     strcpy(suffix, p+1);

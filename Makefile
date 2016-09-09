@@ -4,7 +4,7 @@ ci: unit-test all acceptance-test
 LIBDIR=build/c
 LIB=$(LIBDIR)/librnc.so
 
-CFLAGS=-Wall -Wextra -Werror -fpic
+CFLAGS=-Wall -Wextra -Werror -fpic -std=gnu11
 CPPFLAGS=-Isrc/c
 
 ########################################################################

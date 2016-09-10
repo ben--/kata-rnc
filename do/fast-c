@@ -2,6 +2,5 @@
 set -o pipefail
 
 do/unit-test-c
-do/valgrind-test-c
 do/build-c
 do/acceptance-c

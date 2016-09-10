@@ -14,7 +14,7 @@ if [[ $DOCKER_IMAGE != ${DOCKER_CONTAINER-} ]]; then
 
     "$source_dir/do/create-user" "$DOCKER_IMAGE"
 
-    output_dir="${source_dir}/unit-test/c/fast"
+    output_dir="${source_dir}/unit-test/c/valgrind"
     if [[ -e "$output_dir" ]]; then
         echo rm -rf "$output_dir"
         rm -rf "$output_dir"
@@ -34,12 +34,12 @@ if [[ $DOCKER_IMAGE != ${DOCKER_CONTAINER-} ]]; then
            --volume="$output_dir:$output_dir:rw" \
            --workdir="$source_dir" \
            $DOCKER_IMAGE-user \
-           "$source_dir/do/unit-test-c"
+           "$source_dir/do/valgrind-test-c"
     exit $?
 fi
 
 if [[ -t 1 ]]; then
-    if make unit-test; then
+    if make valgrind-test; then
         echo -e "\e[92;1m   A_A
  =(o.o)=    ,
  (  _  )--'
@@ -52,5 +52,5 @@ if [[ -t 1 ]]; then
         exit 1
     fi
 else
-    make unit-test
+    make valgrind-test
 fi

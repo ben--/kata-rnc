@@ -7,6 +7,7 @@ RUN apt-get update \
         curl \
         gdb \
         strace \
+        valgrind \
  && rm -rf /var/lib/apt/lists/* \
  && apt-get clean
 

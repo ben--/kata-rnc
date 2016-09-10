@@ -24,6 +24,10 @@ fn expand_digit_to_make(mut original: String, needed: char) -> Result<String, St
             original.push(c);
             Ok(original)
         },
+        Some('M') => expand_digit_to_make(original + "DD", needed),
+        Some('D') => expand_digit_to_make(original + "CCCCC", needed),
+        Some('C') => expand_digit_to_make(original + "LL", needed),
+        Some('L') => expand_digit_to_make(original + "XXXXX", needed),
         Some('X') => expand_digit_to_make(original + "VV", needed),
         Some('V') => expand_digit_to_make(original + "IIIII", needed),
         _ => Err(format!("Don't know how to borrow from {}", original))
@@ -72,5 +76,25 @@ mod tests {
     #[test]
     fn borrow_v_from_cxi_returns_the_tail_part_properly() {
         assert_eq!("CVVI", borrow("CXI", 'V').unwrap());
+    }
+
+    #[test]
+    fn borrow_x_from_l() {
+        assert_eq!("XXXXX", borrow("L", 'X').unwrap());
+    }
+
+    #[test]
+    fn borrow_l_from_c() {
+        assert_eq!("LL", borrow("C", 'L').unwrap());
+    }
+
+    #[test]
+    fn borrow_c_from_d() {
+        assert_eq!("CCCCC", borrow("D", 'C').unwrap());
+    }
+
+    #[test]
+    fn borrow_d_from_m() {
+        assert_eq!("DD", borrow("M", 'D').unwrap());
     }
 }

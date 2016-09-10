@@ -88,4 +88,9 @@ mod tests {
     fn sub_i_ii_returns_an_error() {
         assert!(sub("I", "II").is_err());
     }
+
+    #[test]
+    fn sub_m_i_fully_borrow_from_m() {
+        assert_eq!("CMXCIX", sub("M", "I").unwrap());
+    }
 }

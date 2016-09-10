@@ -80,6 +80,10 @@ int rnc_sub(char *diff, size_t diff_len, const char *num_l, const char *num_r)
 static const char *_expansion(char digit)
 {
     switch (digit) {
+        case 'M': return "DD";
+        case 'D': return "CCCCC";
+        case 'C': return "LL";
+        case 'L': return "XXXXX";
         case 'X': return "VV";
         case 'V': return "IIIII";
     }

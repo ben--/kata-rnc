@@ -67,3 +67,35 @@
 
     ck_assert_int_eq(1, actual_ret);
     ck_assert_int_eq('*', buf[4]);
+
+# test can_borrow_x_from_l
+    char buf[6] = "L";
+
+    int actual_ret = rnc_borrow(buf, sizeof(buf), 'X');
+
+    ck_assert_int_eq(0, actual_ret);
+    ck_assert_str_eq("XXXXX", buf);
+
+# test can_borrow_l_from_c
+    char buf[3] = "C";
+
+    int actual_ret = rnc_borrow(buf, sizeof(buf), 'L');
+
+    ck_assert_int_eq(0, actual_ret);
+    ck_assert_str_eq("LL", buf);
+
+# test can_borrow_c_from_d
+    char buf[6] = "D";
+
+    int actual_ret = rnc_borrow(buf, sizeof(buf), 'C');
+
+    ck_assert_int_eq(0, actual_ret);
+    ck_assert_str_eq("CCCCC", buf);
+
+# test can_borrow_d_from_m
+    char buf[3] = "M";
+
+    int actual_ret = rnc_borrow(buf, sizeof(buf), 'D');
+
+    ck_assert_int_eq(0, actual_ret);
+    ck_assert_str_eq("DD", buf);

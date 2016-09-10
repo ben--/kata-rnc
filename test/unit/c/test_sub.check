@@ -41,3 +41,6 @@ static void _test_fail(const char *l, const char *r) {
 
 # test x_minus_vi_extracts_one_element_at_a_time
     _test("X", "VI", "IV");
+
+//# test m_minus_i_performs_a_full_depth_borrow
+    //_test("M", "I", "CMXCIX");

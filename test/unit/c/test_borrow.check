@@ -99,3 +99,21 @@
 
     ck_assert_int_eq(0, actual_ret);
     ck_assert_str_eq("DD", buf);
+
+# test internal_buffers_are_long_enough_for_a_maximal_borrow
+    char expected[] = "MMMDCCCCLXXXXVIIIII";
+    char buf[sizeof(expected)] = "MMMM";
+
+    int actual_ret = rnc_borrow(buf, sizeof(buf), 'I');
+
+    ck_assert_int_eq(0, actual_ret);
+    ck_assert_str_eq(expected, buf);
+
+# test internal_buffers_are_long_enough_for_an_ugly_suffix
+    char expected[] = "MMDDCCCCLXXXXVIIII";
+    char buf[sizeof(expected)] = "MMMCCCCLXXXXVIIII";
+
+    int actual_ret = rnc_borrow(buf, sizeof(buf), 'D');
+
+    ck_assert_int_eq(0, actual_ret);
+    ck_assert_str_eq(expected, buf);

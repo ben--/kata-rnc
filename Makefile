@@ -64,7 +64,8 @@ unit-test/c/fast/%.c: test/unit/c/%.check
 VALGRIND_BINS=$(TEST_SRCS:test/unit/c/%.check=unit-test/c/valgrind/%)
 VALGRIND_OBJS=$(SRCS:src/c/%.c=unit-test/c/valgrind/%.o)
 
-VALGRIND_CFLAGS=-g -O0
+# There is at least one overflow that is not detected with -O9
+VALGRIND_CFLAGS=-g
 VALGRIND_LIBS=-lcheck
 
 .PHONY: valgrind-test

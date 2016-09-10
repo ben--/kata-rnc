@@ -92,7 +92,7 @@ static const char *_expansion(char digit)
 
 int rnc_borrow(char *num, size_t numlen, char numeral)
 {
-    char suffix[12];
+    char suffix[15];
     char *p = num + strlen(num);
 
     for (p = num + strlen(num); p >= num; p--) {

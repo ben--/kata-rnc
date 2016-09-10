@@ -40,9 +40,10 @@ if [[ $DOCKER_IMAGE != ${DOCKER_CONTAINER-} ]]; then
 fi
 
 analyze() {
-    set +e
-    scan-build \
-        -o "$output_dir" \
+    local errs=0
+
+    if ! scan-build \
+        -o "$output_dir/clang-check" \
         -enable-checker alpha.core.BoolAssignment \
         -enable-checker alpha.core.CastSize \
         -enable-checker alpha.core.CastToStruct \
@@ -70,10 +71,32 @@ analyze() {
         -enable-checker security.insecureAPI.rand \
         -enable-checker security.insecureAPI.strcpy \
         --status-bugs \
-        make all LIBDIR="$output_dir"
-    RETVAL=$?
-    set -e
-    return $RETVAL
+        make all LIBDIR="$output_dir/clang-check"
+    then
+        echo >&2 "clang-check FAILED"
+        errs=$(( $errs + 1 ))
+    fi
+
+    local includes=("-I$source_dir/src/c")
+    while read; do
+        includes+=(-I$REPLY)
+    done < <(echo | cpp -v 2>&1 | sed \
+                -e '1,/#include <\.\.\.> search starts here:/d' \
+                -e 's/^ //' \
+                -e '/End of search list./,$d')
+
+    if ! cppcheck \
+        "${includes[@]}" \
+        --enable=warning,style,warning \
+        --error-exitcode=1 \
+        --check-config \
+        "$source_dir/src/c"
+    then
+        echo >&2 "cppcheck FAILED"
+        errs=$(( $errs + 1 ))
+    fi
+
+    return $errs
 }
 
 if [[ -t 1 ]]; then

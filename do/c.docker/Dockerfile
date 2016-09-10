@@ -5,6 +5,7 @@ RUN apt-get update \
         build-essential \
         ca-certificates \
         clang \
+        cppcheck \
         curl \
         gdb \
         strace \

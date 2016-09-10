@@ -105,6 +105,7 @@ int rnc_borrow(char *num, size_t numlen, char numeral)
     }
 
     strcpy(suffix, p+1);
+    //strncpy(suffix, p+1, sizeof(suffix));
 
     while (*p != numeral) {
         p = stpncpy(p, _expansion(*p), numlen - (p-num));
@@ -121,7 +122,6 @@ int rnc_borrow(char *num, size_t numlen, char numeral)
     }
 
     return 0;
-    (void)numlen;
 }
 
 int rnc_denormalize(char *out, size_t outlen, const char *normal)

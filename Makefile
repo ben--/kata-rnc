@@ -11,7 +11,7 @@ CPPFLAGS=-Isrc/c
 # Main build
 
 SRCS=$(wildcard src/c/*.c)
-OBJS=$(SRCS:src/c/%.c=build/c/%.o)
+OBJS=$(SRCS:src/c/%.c=$(LIBDIR)/%.o)
 
 .PHONY: all
 all: $(LIB)
@@ -23,7 +23,7 @@ clean:
 $(LIB): $(OBJS)
 	gcc -shared -o $@ $^
 
-build/c/%.o: src/c/%.c
+$(LIBDIR)/%.o: src/c/%.c
 	@[ -d $(@D) ] || mkdir -p $(@D)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 

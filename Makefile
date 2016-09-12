@@ -34,14 +34,14 @@ TEST_SRCS=$(wildcard test/unit/c/*.check)
 TEST_BINS=$(TEST_SRCS:test/unit/c/%.check=unit-test/c/fast/%)
 TEST_OBJS=$(SRCS:src/c/%.c=unit-test/c/fast/%.o)
 
-TEST_CFLAGS=-fsanitize=address -g
-TEST_LIBS=-lcheck -lasan
+TEST_CFLAGS=-fsanitize=address -fstack-protector-all -g
+TEST_LIBS=-lasan -lcheck
 
 .PHONY: unit-test
 unit-test: $(TEST_BINS:%=run-%)
 
 $(TEST_BINS:%=run-%): run-%: %
-	# Needs to run from a read-write directory...
+	@# check test scripts need to be run from a read-write directory
 	cd unit-test/c/fast && ./$(@F)
 
 $(TEST_BINS): unit-test/c/fast/%: unit-test/c/fast/%.o $(TEST_OBJS)
@@ -64,7 +64,7 @@ unit-test/c/fast/%.c: test/unit/c/%.check
 VALGRIND_BINS=$(TEST_SRCS:test/unit/c/%.check=unit-test/c/valgrind/%)
 VALGRIND_OBJS=$(SRCS:src/c/%.c=unit-test/c/valgrind/%.o)
 
-# There is at least one overflow that is not detected with -O9
+# There is at least one overflow that is not detected with -O0
 VALGRIND_CFLAGS=-g
 VALGRIND_LIBS=-lcheck
 
@@ -72,8 +72,17 @@ VALGRIND_LIBS=-lcheck
 valgrind-test: $(VALGRIND_BINS:%=valgrind-%)
 
 $(VALGRIND_BINS:%=valgrind-%): valgrind-%: %
-	# Needs to run from a read-write directory...
-	cd unit-test/c/valgrind && valgrind ./$(@F)
+	@# Needs to run from a read-write directory...
+	cd unit-test/c/valgrind && valgrind \
+	    --tool=memcheck \
+	    --trace-children=yes \
+	    --error-exitcode=1 \
+	    ./$(@F)
+	cd unit-test/c/valgrind && valgrind \
+	    --tool=exp-sgcheck \
+	    --trace-children=yes \
+	    --error-exitcode=1 \
+	    ./$(@F)
 
 $(VALGRIND_BINS): unit-test/c/valgrind/%: unit-test/c/valgrind/%.o $(VALGRIND_OBJS)
 	$(CC) $(LDFLAGS) $^ $(VALGRIND_LIBS) -o $@

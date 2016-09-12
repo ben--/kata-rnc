@@ -107,7 +107,7 @@ int rnc_borrow(char *num, size_t numlen, char numeral)
         return 1;
     }
 
-    strcpy(suffix, p+1);
+    strcpy(suffix, p + sizeof(char));
     //strncpy(suffix, p+1, sizeof(suffix));
 
     while (*p != numeral) {

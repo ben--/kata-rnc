@@ -12,7 +12,7 @@ int replace(char *buf, size_t buflen,
         char *tail = match + fromlen;
         size_t tail_len = strlen(tail);
 
-        if ((match + tolen + tail_len + 1) > (buf + buflen)) {
+        if ((match + tolen + tail_len + sizeof(char)) > (buf + buflen)) {
             // would result in overflow
             return 1;
         }

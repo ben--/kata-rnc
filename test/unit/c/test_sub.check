@@ -47,3 +47,6 @@ static void _test_fail(const char *l, const char *r) {
 
 # test worst_case_rhs_expansion
     _test("MMMM", "MMMCMXCIX", "I");
+
+# test worst_case_lhs_expansion
+    _test("MMMM", "I", "MMMCMXCIX");

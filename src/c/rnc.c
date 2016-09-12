@@ -56,7 +56,8 @@ int rnc_add(char *sum, size_t sumlen, const char *raw_l, const char *raw_r)
 
 int rnc_sub(char *diff, size_t diff_len, const char *num_l, const char *num_r)
 {
-    char buf_l[32], buf_r[20];
+    char buf_l[32];
+    char buf_r[sizeof("MMMDCCCCLXXXXVIIII")];
     rnc_denormalize(buf_l, sizeof(buf_l), num_l);
     rnc_denormalize(buf_r, sizeof(buf_r), num_r);
 

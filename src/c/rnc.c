@@ -95,7 +95,7 @@ static const char *_expansion(char digit)
 
 int rnc_borrow(char *num, size_t numlen, char numeral)
 {
-    char suffix[15];
+    char suffix[sizeof("CCCCLXXXXVIIII")];
     char *p = num + strlen(num);
 
     for (p = num + strlen(num); p >= num; p--) {

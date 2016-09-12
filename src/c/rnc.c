@@ -72,7 +72,7 @@ int rnc_sub(char *diff, size_t diff_len, const char *num_l, const char *num_r)
                 return 1;
             }
         }
-        memmove(l, l+1, sizeof(buf_l) - (l-buf_l));
+        memmove(l, l + sizeof(char), sizeof(buf_l) - (l-buf_l) - sizeof(char));
     }
 
     strcpy(diff, buf_l);

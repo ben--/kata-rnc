@@ -85,7 +85,7 @@ static void _test(const char *expected, const char *l, const char *r) {
 # test accepts_worst_case_sum
     _test("MMMCMXCVIII", "MCMXCIX", "MCMXCIX");
 
-# test fails_cleanly_on_addition_of_too_many_digits
+# test fails_cleanly_on_addition_that_would_result_in_a_buffer_overflow
     int actual_ret;
     char out[32];
 

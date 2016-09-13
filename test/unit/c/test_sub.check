@@ -50,3 +50,13 @@ static void _test_fail(const char *l, const char *r) {
 
 # test worst_case_lhs_expansion
     _test("MMMM", "I", "MMMCMXCIX");
+
+# test succeeds_with_barely_enough_space_without_overwriting
+    int actual_ret;
+    char actual_diff[] = { '*', '*', '*', 'a', 'd', 'a', 'd', '\0' };
+
+    actual_ret = rnc_sub(actual_diff, 3, "X", "I");
+
+    ck_assert_int_eq(0, actual_ret);
+    ck_assert_str_eq("IX", actual_diff);
+    ck_assert_str_eq("adad", actual_diff + 3);

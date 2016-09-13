@@ -74,9 +74,10 @@ int rnc_sub(char *diff, size_t diff_len, const char *num_l, const char *num_r)
         memmove(l, l + sizeof(char), sizeof(buf_l) - (l-buf_l) - sizeof(char));
     }
 
+    rnc_normalize(buf_l, sizeof(buf_l));
     strcpy(diff, buf_l);
-    rnc_normalize(diff, diff_len);
     return 0;
+    (void)diff_len;
 }
 
 static const char *_expansion(char digit)

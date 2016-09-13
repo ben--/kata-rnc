@@ -75,9 +75,11 @@ int rnc_sub(char *diff, size_t diff_len, const char *num_l, const char *num_r)
     }
 
     rnc_normalize(buf_l, sizeof(buf_l));
-    strcpy(diff, buf_l);
+    if (stpncpy(diff, buf_l, diff_len) >= diff + diff_len) {
+        return 1;
+    }
+
     return 0;
-    (void)diff_len;
 }
 
 static const char *_expansion(char digit)
@@ -96,7 +98,7 @@ static const char *_expansion(char digit)
 int rnc_borrow(char *num, size_t numlen, char numeral)
 {
     char suffix[sizeof("CCCCLXXXXVIIII")];
-    char *p = num + strlen(num);
+    char *p;
 
     for (p = num + strlen(num); p >= num; p--) {
         if (rnc_larger(*p, numeral)) {

@@ -22,16 +22,24 @@ bool rnc_larger(char l, char r)
     else return r != 'V';
 }
 
-static void _merge_sorted_chars(char *out, const char *x, const char *y)
+static int _merge_sorted_chars(char *out, size_t out_len, const char *x, const char *y)
 {
+    size_t l = 0;
+
     while (*x || *y) {
         if (rnc_larger(*x, *y)) {
+            if (++l > out_len) return 1;
             *out++ = *x++;
         } else {
+            if (++l > out_len) return 1;
             *out++ = *y++;
         }
     }
+
+    if (++l > out_len) return 1;
     *out = '\0';
+
+    return 0;
 }
 
 int rnc_add(char *sum, size_t sumlen, const char *raw_l, const char *raw_r)
@@ -42,7 +50,9 @@ int rnc_add(char *sum, size_t sumlen, const char *raw_l, const char *raw_r)
     rnc_denormalize(buf_l, sizeof(buf_l), raw_l);
     rnc_denormalize(buf_r, sizeof(buf_r), raw_r);
 
-    _merge_sorted_chars(buf_sum, buf_l, buf_r);
+    if (0 != _merge_sorted_chars(buf_sum, sizeof(buf_sum), buf_l, buf_r)) {
+        return 1;
+    }
 
     rnc_normalize(buf_sum, sizeof(buf_sum));
 

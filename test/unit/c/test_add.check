@@ -84,3 +84,11 @@ static void _test(const char *expected, const char *l, const char *r) {
 
 # test accepts_worst_case_sum
     _test("MMMCMXCVIII", "MCMXCIX", "MCMXCIX");
+
+# test fails_cleanly_on_addition_of_too_many_digits
+    int actual_ret;
+    char out[32];
+
+    actual_ret = rnc_add(out, sizeof(out), "MCMXCIX", "MMCMXCIX");
+
+    ck_assert_int_ne(0, actual_ret);

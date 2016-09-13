@@ -4,3 +4,4 @@ set -o pipefail
 do/unit-test-c
 do/build-c
 do/acceptance-c
+do/analyze-c

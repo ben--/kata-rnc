@@ -5,3 +5,4 @@ do/unit-test-c
 do/valgrind-test-c
 do/build-c
 do/acceptance-c
+do/analyze-c

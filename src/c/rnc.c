@@ -200,5 +200,9 @@ int rnc_normalize(char *buf, size_t buflen)
     REPLACE(buf, buflen, "DD", "M");
     REPLACE(buf, buflen, "DCD", "CM");
 
+    if (NULL != strstr(buf, "MMMM")) {
+        return 1;
+    }
+
     return 0;
 }

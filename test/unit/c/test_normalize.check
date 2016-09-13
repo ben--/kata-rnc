@@ -75,3 +75,11 @@ static void _test(const char *expected, const char *denormal) {
 
 # test ddcd_becomes_mcd
     _test("MCD", "DDCD");
+
+# test returns_failure_on_too_big_number
+    int actual_ret;
+    char actual_val[32] = "MMMM";
+
+    actual_ret = rnc_normalize(actual_val, sizeof(actual_val));
+
+    ck_assert_int_ne(0, actual_ret);

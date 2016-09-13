@@ -98,8 +98,10 @@ int main(int argc, char **argv)
     tests++; errs += _add("MCMXC", "L", "MMXL");
     tests++; errs += _add("I", "MMMCMXCVIII", "MMMCMXCIX");
     tests++; errs += _add("MMMDCCCLXXXVIII", "I", "MMMDCCCLXXXIX");
+    tests++; errs += _add("MCMXCIX", "MCMXCIX", "MMMCMXCVIII");
 
     tests++; errs += _add_fail("I", "I", 2);
+    tests++; errs += _add_fail("MCMXCIX", "MMCMXCIX", 32);
     //tests++; errs += _add_fail("IL", "I", 32);
 
     tests++; errs += _sub("II", "I", "I");

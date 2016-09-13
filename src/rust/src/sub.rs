@@ -30,7 +30,7 @@ pub fn sub(num_l: &str, num_r: &str) -> Result<String, &'static str> {
             }
         }
     }) {
-        Ok(denorm) => { Ok(normalize(&denorm)) },
+        Ok(denorm) => { Ok(normalize(&denorm).unwrap()) },
         Err(e) => { Err(e) }
     }
 }

@@ -47,12 +47,11 @@ int rnc_add(char *sum, size_t sumlen, const char *raw_l, const char *raw_r)
     char buf_l[sizeof("MMMDCCCCLXXXXVIIII")];
     char buf_r[sizeof("MMMDCCCCLXXXXVIIII")];
     char buf_sum[sizeof("MDCCCCLXXXXVIIIIMDCCCCLXXXXVIIII")];
-    rnc_denormalize(buf_l, sizeof(buf_l), raw_l);
-    rnc_denormalize(buf_r, sizeof(buf_r), raw_r);
 
-    if (0 != _merge_sorted_chars(buf_sum, sizeof(buf_sum), buf_l, buf_r)) {
-        return 1;
-    }
+    if (0 != rnc_denormalize(buf_l, sizeof(buf_l), raw_l)) return 1;
+    if (0 != rnc_denormalize(buf_r, sizeof(buf_r), raw_r)) return 1;
+
+    if (0 != _merge_sorted_chars(buf_sum, sizeof(buf_sum), buf_l, buf_r)) return 1;
 
     rnc_normalize(buf_sum, sizeof(buf_sum));
 

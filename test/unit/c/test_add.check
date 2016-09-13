@@ -92,3 +92,19 @@ static void _test(const char *expected, const char *l, const char *r) {
     actual_ret = rnc_add(out, sizeof(out), "MCMXCIX", "MMCMXCIX");
 
     ck_assert_int_ne(0, actual_ret);
+
+# test fails_cleanly_on_too_long_lhs
+    int actual_ret;
+    char out[32];
+
+    actual_ret = rnc_add(out, sizeof(out), "MMMCMXCIXI", "I");
+
+    ck_assert_int_ne(0, actual_ret);
+
+# test fails_cleanly_on_too_long_rhs
+    int actual_ret;
+    char out[32];
+
+    actual_ret = rnc_add(out, sizeof(out), "I", "MMMCMXCIXI");
+
+    ck_assert_int_ne(0, actual_ret);

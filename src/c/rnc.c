@@ -46,10 +46,9 @@ int rnc_add(char *sum, size_t sumlen, const char *raw_l, const char *raw_r)
 
     rnc_normalize(buf_sum, sizeof(buf_sum));
 
-    if (strlen(buf_sum) > sumlen - sizeof("")) {
+    if (stpncpy(sum, buf_sum, sumlen) >= sum + sumlen) {
         return 1;
     }
-    strcpy(sum, buf_sum);
 
     return 0;
 }

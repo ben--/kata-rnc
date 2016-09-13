@@ -53,6 +53,32 @@ int rnc_add(char *sum, size_t sumlen, const char *raw_l, const char *raw_r)
     return 0;
 }
 
+static int _sub_digit(char *buf, size_t buf_len, char digit) {
+    char *l = strchr(buf, digit);
+    if (!l) {
+        if (0 != rnc_borrow(buf, buf_len, digit)) {
+            return 1;
+        }
+        l = strchr(buf, digit);
+        if (!l) {
+            return 1;
+        }
+    }
+    memmove(l, l + sizeof(char), buf_len - (l-buf) - sizeof(char));
+
+    return 0;
+}
+
+static int _sub_digits(char *from, size_t from_len, char *digits) {
+    for (char *r = digits; *r; r++) {
+        if (0 != _sub_digit(from, from_len, *r)) {
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
 int rnc_sub(char *diff, size_t diff_len, const char *num_l, const char *num_r)
 {
     char buf_l[sizeof("MMMDCCCCLXXXXVIIIII")];
@@ -60,18 +86,8 @@ int rnc_sub(char *diff, size_t diff_len, const char *num_l, const char *num_r)
     rnc_denormalize(buf_l, sizeof(buf_l), num_l);
     rnc_denormalize(buf_r, sizeof(buf_r), num_r);
 
-    for (char *r = buf_r; *r; r++) {
-        char *l = strchr(buf_l, *r);
-        if (!l) {
-            if (0 != rnc_borrow(buf_l, sizeof(buf_l), *r)) {
-                return 1;
-            }
-            l = strchr(buf_l, *r);
-            if (!l) {
-                return 1;
-            }
-        }
-        memmove(l, l + sizeof(char), sizeof(buf_l) - (l-buf_l) - sizeof(char));
+    if (0 != _sub_digits(buf_l, sizeof(buf_l), buf_r)) {
+        return 1;
     }
 
     rnc_normalize(buf_l, sizeof(buf_l));

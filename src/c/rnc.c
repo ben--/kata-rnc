@@ -53,17 +53,27 @@ int rnc_add(char *sum, size_t sumlen, const char *raw_l, const char *raw_r)
     return 0;
 }
 
-static int _sub_digit(char *buf, size_t buf_len, char digit) {
+static char *_find_digit(char *buf, size_t buf_len, char digit) {
     char *l = strchr(buf, digit);
     if (!l) {
         if (0 != rnc_borrow(buf, buf_len, digit)) {
-            return 1;
+            return NULL;
         }
         l = strchr(buf, digit);
         if (!l) {
-            return 1;
+            return NULL;
         }
     }
+
+    return l;
+}
+
+static int _sub_digit(char *buf, size_t buf_len, char digit) {
+    char *l = _find_digit(buf, buf_len, digit);
+    if (!l) {
+        return 1;
+    }
+
     memmove(l, l + sizeof(char), buf_len - (l-buf) - sizeof(char));
 
     return 0;
@@ -111,17 +121,22 @@ static const char *_expansion(char digit)
     return NULL;
 }
 
+static char *_last_larger_digit(char *num, char digit) {
+    for (char *p = num + strlen(num); p >= num; p--) {
+        if (rnc_larger(*p, digit)) {
+            return p;
+        }
+    }
+
+    return NULL;
+}
+
 int rnc_borrow(char *num, size_t numlen, char numeral)
 {
     char suffix[sizeof("CCCCLXXXXVIIII")];
-    char *p;
 
-    for (p = num + strlen(num); p >= num; p--) {
-        if (rnc_larger(*p, numeral)) {
-            break;
-        }
-    }
-    if (p < num) {
+    char *p = _last_larger_digit(num, numeral);
+    if (p == NULL) {
         return 1;
     }
 

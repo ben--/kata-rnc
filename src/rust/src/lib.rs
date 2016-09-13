@@ -24,21 +24,29 @@ mod sub;
 pub use sub::sub;
 
 #[no_mangle]
-pub extern fn rnc_add(dst: *mut c_char, dstlen: size_t, num_l: *const c_char, num_r: *const c_char) -> c_int {
+pub extern fn rnc_add(dst: *mut c_char, dstlen: size_t, raw_l: *const c_char, raw_r: *const c_char) -> c_int {
+    let num_l;
+    let num_r;
+
     unsafe {
-        match add(CStr::from_ptr(num_l).to_str().unwrap(), CStr::from_ptr(num_r).to_str().unwrap()) {
-            Ok(sum) => {
-                if sum.len() > (dstlen - 1) {
-                    1
-                } else {
-                    let csum = CString::new(sum).unwrap();
-                    strncpy(dst, csum.as_ptr() as *const i8, dstlen);
-                    0
-                }
-            },
-            Err(_) => {
+        num_l = CStr::from_ptr(raw_l).to_str().unwrap();
+        num_r = CStr::from_ptr(raw_r).to_str().unwrap();
+    }
+
+    match add(num_l, num_r) {
+        Ok(sum) => {
+            if sum.len() > (dstlen - 1) {
                 1
+            } else {
+                let csum = CString::new(sum).unwrap();
+                unsafe {
+                    strncpy(dst, csum.as_ptr() as *const i8, dstlen);
+                }
+                0
             }
+        },
+        Err(_) => {
+            1
         }
     }
 }

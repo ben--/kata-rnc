@@ -107,12 +107,13 @@ int rnc_borrow(char *num, size_t numlen, char numeral)
         return 1;
     }
 
-    strcpy(suffix, p + sizeof(char));
-    //strncpy(suffix, p+1, sizeof(suffix));
+    if (stpncpy(suffix, p + sizeof(char), sizeof(suffix)) >= suffix + sizeof(suffix)) {
+        return 1;
+    }
 
     while (*p != numeral) {
         p = stpncpy(p, _expansion(*p), numlen - (p-num));
-        if (*p) {
+        if (p >= num + numlen) {
             return 1;
         }
         p--;
@@ -120,7 +121,7 @@ int rnc_borrow(char *num, size_t numlen, char numeral)
     p++;
 
     p = stpncpy(p, suffix, numlen - (p-num));
-    if (*p) {
+    if (p >= num + numlen) {
         return 1;
     }
 

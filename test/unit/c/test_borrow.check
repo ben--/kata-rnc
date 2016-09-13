@@ -117,3 +117,10 @@
 
     ck_assert_int_eq(0, actual_ret);
     ck_assert_str_eq(expected, buf);
+
+# test fails_cleanly_on_malformed_too_long_suffix
+    char buf[32] = "MMMCCCCLXXXXVIIIII";
+
+    int actual_ret = rnc_borrow(buf, sizeof(buf), 'D');
+
+    ck_assert_int_ne(0, actual_ret);

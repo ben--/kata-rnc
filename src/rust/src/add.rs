@@ -87,4 +87,9 @@ mod tests {
     fn add_l_xi_understands_l_x_sort_order() {
         assert_eq!("LXI", add("L", "XI"));
     }
+
+    #[test]
+    fn add_fails_when_result_is_too_big_to_be_represented() {
+        assert!(add("MCMXCIX", "MMCMXCIX").is_err());
+    }
 }

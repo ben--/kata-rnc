@@ -38,3 +38,22 @@ static void _test(const char *normal, const char *expected) {
 
 # test cm
     _test("CM", "DCCCC");
+
+# test succeeds_with_barely_enough_space
+    int actual_ret;
+    char actual_val[] = { '*', '*', '*', '*', '*', 'a', 'd', 'a', 'd', '\0' };
+
+    actual_ret = rnc_denormalize(actual_val, 5, "IV");
+
+    ck_assert_int_eq(0, actual_ret);
+    ck_assert_str_eq("IIII", actual_val);
+    ck_assert_str_eq("adad", actual_val + 5);
+
+# test fails_cleanly_without_enough_space
+    int actual_ret;
+    char actual_val[] = { '*', '*', '*', '*', 'a', 'd', 'a', 'd', '\0' };
+
+    actual_ret = rnc_denormalize(actual_val, 4, "IV");
+
+    ck_assert_int_ne(0, actual_ret);
+    ck_assert_str_eq("adad", actual_val + 4);

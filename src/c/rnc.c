@@ -132,7 +132,9 @@ int rnc_borrow(char *num, size_t numlen, char numeral)
 
 int rnc_denormalize(char *out, size_t outlen, const char *normal)
 {
-    strcpy(out, normal);
+    if (stpncpy(out, normal, outlen) >= out + outlen) {
+        return 1;
+    }
 
     return
         REPLACE(out, outlen, "IV", "IIII") ||

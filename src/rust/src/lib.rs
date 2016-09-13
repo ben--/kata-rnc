@@ -52,20 +52,28 @@ pub extern fn rnc_add(dst: *mut c_char, dstlen: size_t, raw_l: *const c_char, ra
 }
 
 #[no_mangle]
-pub extern fn rnc_sub(dst: *mut c_char, dstlen: size_t, num_l: *const c_char, num_r: *const c_char) -> c_int {
+pub extern fn rnc_sub(dst: *mut c_char, dstlen: size_t, raw_l: *const c_char, raw_r: *const c_char) -> c_int {
+    let num_l;
+    let num_r;
+
     unsafe {
-        match sub(CStr::from_ptr(num_l).to_str().unwrap(), CStr::from_ptr(num_r).to_str().unwrap()) {
-            Ok(difference) => {
-                //if sum.len() > (dstlen - 1) {
-                //1
-                //} else {
-                let cdiff = CString::new(difference).unwrap();
+        num_l = CStr::from_ptr(raw_l).to_str().unwrap();
+        num_r = CStr::from_ptr(raw_r).to_str().unwrap();
+    }
+
+    match sub(num_l, num_r) {
+        Ok(difference) => {
+            //if sum.len() > (dstlen - 1) {
+            //1
+            //} else {
+            let cdiff = CString::new(difference).unwrap();
+            unsafe {
                 strncpy(dst, cdiff.as_ptr() as *const i8, dstlen);
-                0
-            },
-            Err(_) => {
-                1
             }
+            0
+        },
+        Err(_) => {
+            1
         }
     }
 }

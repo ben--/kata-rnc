@@ -63,3 +63,27 @@ static void _invalid(const char *num) {
 
 # test x_is_valid
     _valid("X");
+
+# test xi_is_valid
+    _valid("XI");
+
+# test xx_is_valid
+    _valid("XX");
+
+# test xxx_is_valid
+    _valid("XXX");
+
+# test xxxix_is_valid
+    _valid("XXXIX");
+
+# test xxxx_is_not_valid
+    _invalid("XXXX");
+
+# test xl_is_valid
+    _valid("XL");
+
+# test xlx_is_not_valid
+    _invalid("XLX");
+
+# test l_is_valid
+    _valid("L");

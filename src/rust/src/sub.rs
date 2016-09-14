@@ -14,30 +14,29 @@ pub fn sub(num_l: &str, num_r: &str) -> Result<String, String> {
 
         match rhs.chars().fold(Ok(lhs), |from, digit| {
             match from {
-                Ok(remaining) => {
-                    let parts: Vec<&str> = remaining.splitn(2, digit).collect();
-                    if parts.len() == 2 {
-                        Ok(parts.join(""))
-                    } else {
-                        match borrow(remaining.as_ref(), digit) {
-                            Ok(expanded) => {
-                                borrow(remaining.as_ref(), digit).unwrap();
-                                let expanded_parts: Vec<&str> = expanded.splitn(2, digit).collect();
-                                Ok(expanded_parts.join(""))
-                            },
-                            Err(_) => {
-                                Err("Could not borrow a letter".into())
-                            }
-                        }
-                    }
-                },
-                Err(e) => {
-                    Err(e)
-                }
+                Ok(remaining) => sub_one_char(remaining, digit),
+                Err(e) => Err(e)
             }
         }) {
-            Ok(denorm) => { Ok(normalize(&denorm).unwrap()) },
-            Err(e) => { Err(e) }
+            Ok(denorm) => Ok(normalize(&denorm).unwrap()),
+            Err(e) => Err(e)
+        }
+    }
+}
+
+fn sub_one_char(numeral: String, digit: char) -> Result<String, String> {
+    let parts: Vec<&str> = numeral.splitn(2, digit).collect();
+    if parts.len() == 2 {
+        Ok(parts.join(""))
+    } else {
+        match borrow(numeral.as_ref(), digit) {
+            Ok(expanded) => {
+                let expanded_parts: Vec<&str> = expanded.splitn(2, digit).collect();
+                Ok(expanded_parts.join(""))
+            },
+            Err(_) => {
+                Err("Could not borrow a letter".into())
+            }
         }
     }
 }

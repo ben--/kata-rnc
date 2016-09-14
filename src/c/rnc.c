@@ -206,3 +206,9 @@ int rnc_normalize(char *buf, size_t buflen)
 
     return 0;
 }
+
+bool rnc_valid(const char *num)
+{
+    return true;
+    (void)num;
+}

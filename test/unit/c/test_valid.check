@@ -1,0 +1,6 @@
+#include "rnc.h"
+
+# suite add
+
+# test i_is_valid
+    ck_assert(rnc_valid("I"));

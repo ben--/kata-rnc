@@ -217,7 +217,7 @@ bool rnc_valid(const char *num)
         regcomp(&re,
                 "^"
                 "X?"
-                "(IX|IV|V?(I(II?)?)?)"
+                "(IX|IV|V|V?I(II?)?)?"
                 "$",
                 REG_EXTENDED | REG_NOSUB);
         int match = regexec(&re, num, 0, NULL, 0);

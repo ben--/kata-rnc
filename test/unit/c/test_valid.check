@@ -114,3 +114,24 @@ static void _invalid(const char *num) {
 
 # test cx_is_valid
     _valid("CX");
+
+# test cc_is_valid
+    _valid("CC");
+
+# test ccc_is_valid
+    _valid("CCC");
+
+# test cccxc_is_valid
+    _valid("CCCXC");
+
+# test cccc_is_not_valid
+    _invalid("CCCC");
+
+#test cd_is_valid
+    _valid("CD");
+
+#test cdc_is_not_valid
+    _invalid("CDC");
+
+#test d_is_valid
+    _valid("D");

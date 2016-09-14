@@ -12,15 +12,11 @@ pub fn sub(num_l: &str, num_r: &str) -> Result<String, String> {
         let lhs = denormalize(num_l);
         let rhs = denormalize(num_r);
 
-        match rhs.chars().fold(Ok(lhs), |from, digit| {
-            match from {
-                Ok(remaining) => sub_one_char(remaining, digit),
-                Err(e) => Err(e)
-            }
-        }) {
-            Ok(denorm) => Ok(normalize(&denorm).unwrap()),
-            Err(e) => Err(e)
-        }
+        rhs.chars().fold(Ok(lhs), |partial_diff, digit| {
+            partial_diff.and_then(|remaining| sub_one_char(remaining, digit))
+        }).and_then(
+            |denorm| Ok(normalize(&denorm).unwrap())
+        )
     }
 }
 
@@ -29,15 +25,10 @@ fn sub_one_char(numeral: String, digit: char) -> Result<String, String> {
     if parts.len() == 2 {
         Ok(parts.join(""))
     } else {
-        match borrow(numeral.as_ref(), digit) {
-            Ok(expanded) => {
-                let expanded_parts: Vec<&str> = expanded.splitn(2, digit).collect();
-                Ok(expanded_parts.join(""))
-            },
-            Err(_) => {
-                Err("Could not borrow a letter".into())
-            }
-        }
+        borrow(numeral.as_ref(), digit).and_then(|expanded| {
+            let expanded_parts: Vec<&str> = expanded.splitn(2, digit).collect();
+            Ok(expanded_parts.join(""))
+        })
     }
 }
 

@@ -103,7 +103,7 @@ int main(int argc, char **argv)
     tests++; errs += _add_fail("I", "I", 2);
     tests++; errs += _add_fail("MCMXCIX", "MMCMXCIX", 32);
     tests++; errs += _add_fail("J", "I", 32);
-    tests++; errs += _add_fail("IM", "I", 32);
+    tests++; errs += _add_fail("I", "IM", 32);
 
     tests++; errs += _sub("II", "I", "I");
     tests++; errs += _sub("III", "I", "II");

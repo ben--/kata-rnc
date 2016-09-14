@@ -8,6 +8,8 @@ use valid;
 pub fn add(num_l: &str, num_r: &str) -> Result<String, String> {
     if !valid(num_l) {
         Err(format!("Invalid numeral {}", num_l))
+    } else if !valid(num_r) {
+        Err(format!("Invalid numeral {}", num_r))
     } else {
         let sum = merge(denormalize(num_l), denormalize(num_r));
         normalize(&sum)
@@ -101,5 +103,10 @@ mod tests {
     #[test]
     fn add_fails_when_lhs_is_invalid() {
         assert!(add("J", "I").is_err());
+    }
+
+    #[test]
+    fn add_fails_when_rhs_is_invalid() {
+        assert!(add("I", "").is_err());
     }
 }

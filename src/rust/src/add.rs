@@ -3,10 +3,15 @@ use std::cmp::Ordering;
 use cmp;
 use denormalize;
 use normalize;
+use valid;
 
 pub fn add(num_l: &str, num_r: &str) -> Result<String, String> {
-    let sum = merge(denormalize(num_l), denormalize(num_r));
-    normalize(&sum)
+    if !valid(num_l) {
+        Err(format!("Invalid numeral {}", num_l))
+    } else {
+        let sum = merge(denormalize(num_l), denormalize(num_r));
+        normalize(&sum)
+    }
 }
 
 fn merge(num_l: String, num_r: String) -> String {
@@ -91,5 +96,10 @@ mod tests {
     #[test]
     fn add_fails_when_result_is_too_big_to_be_represented() {
         assert!(add("MCMXCIX", "MMCMXCIX").is_err());
+    }
+
+    #[test]
+    fn add_fails_when_lhs_is_invalid() {
+        assert!(add("J", "I").is_err());
     }
 }

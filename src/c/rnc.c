@@ -216,6 +216,7 @@ bool rnc_valid(const char *num)
         regex_t re;
         regcomp(&re,
                 "^"
+                "M?"
                 "(CM|CD|D|D?C(CC?)?)?"
                 "(XC|XL|L|L?X(XX?)?)?"
                 "(IX|IV|V|V?I(II?)?)?"

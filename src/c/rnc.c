@@ -23,7 +23,7 @@ bool rnc_larger(char l, char r)
     else return r != 'V';
 }
 
-static int _merge_sorted_chars(char *out, size_t out_len, const char *x, const char *y)
+static int _merge_sorted(char *out, size_t out_len, const char *x, const char *y)
 {
     size_t l = 0;
 
@@ -52,7 +52,7 @@ int rnc_add(char *sum, size_t sumlen, const char *raw_l, const char *raw_r)
     if (!rnc_valid(raw_l) || 0 != rnc_denormalize(buf_l, sizeof(buf_l), raw_l)) return 1;
     if (!rnc_valid(raw_r) || 0 != rnc_denormalize(buf_r, sizeof(buf_r), raw_r)) return 1;
 
-    if (0 != _merge_sorted_chars(buf_sum, sizeof(buf_sum), buf_l, buf_r)) return 1;
+    if (0 != _merge_sorted(buf_sum, sizeof(buf_sum), buf_l, buf_r)) return 1;
 
     rnc_normalize(buf_sum, sizeof(buf_sum));
 
@@ -153,6 +153,7 @@ int rnc_borrow(char *num, size_t numlen, char numeral)
         return 1;
     }
 
+    // Store aside the trailing digits
     if (stpncpy(suffix, p + sizeof(char), sizeof(suffix)) >= suffix + sizeof(suffix)) {
         return 1;
     }
@@ -166,6 +167,7 @@ int rnc_borrow(char *num, size_t numlen, char numeral)
     }
     p++;
 
+    // Restore the trailing digits
     p = stpncpy(p, suffix, numlen - (p-num));
     if (p >= num + numlen) {
         return 1;

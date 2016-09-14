@@ -6,7 +6,7 @@ An implementation of Pillar's Roman Numeral Kata with some extra twists to make 
 
 The kata may be evaluated per the unmodified rules by running `make` on a well-configured Ubuntu system. This will build and test the C version of the solution on an Ubuntu 14.04 system with build-essentials installed.
 
-If you don't have an Ubuntu 14.04 machine with `build-essential`, `check`, and `valgrind` installed, but you do have Docker, you can simply run `do/all-c`
+If you don't have an Ubuntu 14.04 machine with `build-essential`, `check`, and `valgrind` installed, but you do have Docker, you can simply run `do/all-c` and an appropriate docker will automatically be built and the build will be run within it.
 
 Developers can automatically run unit tests by issuing a `do/auto fast-c` command.
 

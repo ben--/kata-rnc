@@ -35,7 +35,7 @@ TEST_BINS=$(TEST_SRCS:test/unit/c/%.check=unit-test/c/fast/%)
 TEST_OBJS=$(SRCS:src/c/%.c=unit-test/c/fast/%.o)
 
 TEST_CFLAGS=-fsanitize=address -fstack-protector-all -g
-TEST_LIBS=-lasan -lcheck
+TEST_LIBS=-lasan -lcheck -lpthread -lm -lrt
 
 .PHONY: unit-test
 unit-test: $(TEST_BINS:%=run-%)
@@ -66,7 +66,7 @@ VALGRIND_OBJS=$(SRCS:src/c/%.c=unit-test/c/valgrind/%.o)
 
 # There is at least one overflow that is not detected with -O0
 VALGRIND_CFLAGS=-g
-VALGRIND_LIBS=-lcheck
+VALGRIND_LIBS=-lcheck -lpthread -lm -lrt
 
 .PHONY: valgrind-test
 valgrind-test: $(VALGRIND_BINS:%=valgrind-%)

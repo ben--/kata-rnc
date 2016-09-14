@@ -6,9 +6,11 @@ An implementation of Pillar's Roman Numeral Kata with some extra twists to make 
 
 The kata may be evaluated per the unmodified rules by running `make` on a well-configured Ubuntu system. This will build and test the C version of the solution on an Ubuntu 14.04 system with build-essentials installed.
 
-Developers can automatically run unit tests by issuing a `do/auto test` command.
+If you don't have an Ubuntu 14.04 machine with `build-essential`, `check`, and `valgrind` installed, but you do have Docker, you can simply run `do/all-c`
 
-Current CI status can be found on the [Travis](https://travis-ci.org/ben--/kata-rnc.svg) build. Full CI reporting requires a [Jenkins CI](#local-ci) setup.
+Developers can automatically run unit tests by issuing a `do/auto fast-c` command.
+
+Current CI status can be found on the [Travis](https://travis-ci.org/ben--/kata-rnc.svg) build.
 
 ## Extra Twists
 
@@ -39,13 +41,3 @@ As a Roman bookkeeper, I want to be able to add two numbers together. So that I 
 
 #### User Story: Subtraction
 As a Roman bookkeeper, I want to be able to subtract one number from another. So that I can do my work faster and with fewer mathematical errors.
-
-## Jenkins CI
-
-Because we can never depend on web services lasting long-term, a Jenkins CI environment is also provided. To bootstrap this, the following instructions should be followed:
-
-* Install Docker on a Linux machine or Docker for Mac on an OS X system
-* Run `do/ci` to install and start Jenkins
-* Log into the local Jenkins instance on http://localhost:8080
-* Create a user account and disable account creation for security purposes
-* Run the bootstrap job to generate the actual build jobs

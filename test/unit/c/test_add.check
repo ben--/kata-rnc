@@ -77,10 +77,10 @@ static void _test(const char *expected, const char *l, const char *r) {
     ck_assert_int_eq(0, memcmp(heap + 2, "adad", sizeof(heap) - 2));
 
 # test accepts_worst_case_expansion_on_the_left
-    _test("MMMM", "MMMCMXCIX", "I");
+    _test("MMMCMXCIX", "MMMCMXCVIII", "I");
 
 # test accepts_worst_case_expansion_on_the_right
-    _test("MMMM", "I", "MMMCMXCIX");
+    _test("MMMCMXCIX", "I", "MMMCMXCVIII");
 
 # test accepts_worst_case_sum
     _test("MMMCMXCVIII", "MCMXCIX", "MCMXCIX");

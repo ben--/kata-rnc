@@ -46,6 +46,12 @@ static void _invalid(const char *num) {
 # test vi_is_valid
     _valid("VI");
 
+# test vii_is_valid
+    _valid("VII");
+
+# test viii_is_valid
+    _valid("VIII");
+
 # test ix_is_valid
     _valid("IX");
 
@@ -87,3 +93,12 @@ static void _invalid(const char *num) {
 
 # test l_is_valid
     _valid("L");
+
+# test lx_is_valid
+    _valid("LX");
+
+# test lxx_is_valid
+    _valid("LXX");
+
+# test lxxx_is_valid
+    _valid("LXXX");

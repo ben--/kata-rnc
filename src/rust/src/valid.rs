@@ -3,7 +3,12 @@ extern crate regex;
 use self::regex::Regex;
 
 pub fn valid(num: &str) -> bool {
-    let re = Regex::new("I").unwrap();
+    let re_text = concat!(
+        "^",
+        "I",
+        "$");
+
+    let re = Regex::new(re_text).unwrap();
     re.is_match(num)
 }
 
@@ -19,5 +24,15 @@ mod tests {
     #[test]
     fn lower_i_is_invalid() {
         assert!(!valid("i"));
+    }
+
+    #[test]
+    fn prefixes_are_not_valid() {
+        assert!(!valid(" I"));
+    }
+
+    #[test]
+    fn suffixes_are_not_valid() {
+        assert!(!valid("I "));
     }
 }

@@ -3,16 +3,20 @@ extern crate regex;
 use self::regex::Regex;
 
 pub fn valid(num: &str) -> bool {
-    let re_text = concat!(
-        "^",
-        "(M(MM?)?)?",
-        "(CM|CD|D|D?C(CC?)?)?",
-        "(XC|XL|L|L?X(XX?)?)?",
-        "(IX|IV|V|V?I(II?)?)?",
-        "$");
+    if num.len() == 0 {
+        false
+    } else {
+        let re_text = concat!(
+            "^",
+            "(M(MM?)?)?",
+            "(CM|CD|D|D?C(CC?)?)?",
+            "(XC|XL|L|L?X(XX?)?)?",
+            "(IX|IV|V|V?I(II?)?)?",
+            "$");
 
-    let re = Regex::new(re_text).unwrap();
-    re.is_match(num)
+        let re = Regex::new(re_text).unwrap();
+        re.is_match(num)
+    }
 }
 
 #[cfg(test)]

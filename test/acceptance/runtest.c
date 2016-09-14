@@ -118,8 +118,8 @@ int main(int argc, char **argv)
     tests++; errs += _sub("M", "I", "CMXCIX");
 
     tests++; errs += _sub_fail("I", "II");
-    tests++; errs += _sub_fail("J", "I");
-    tests++; errs += _sub_fail("II", "J");
+    tests++; errs += _sub_fail("IJ", "I");
+    tests++; errs += _sub_fail("MM", "IM");
 
     printf("test result: %d passed, %d failed\n", tests - errs, errs);
 

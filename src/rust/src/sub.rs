@@ -1,37 +1,44 @@
 use borrow;
 use denormalize;
 use normalize;
+use valid;
 
-pub fn sub(num_l: &str, num_r: &str) -> Result<String, &'static str> {
-    let lhs = denormalize(num_l);
-    let rhs = denormalize(num_r);
+pub fn sub(num_l: &str, num_r: &str) -> Result<String, String> {
+    if !valid(num_l) {
+        Err(format!("Invalid numeral {}", num_l))
+    } else if !valid(num_r) {
+        Err(format!("Invalid numeral {}", num_r))
+    } else {
+        let lhs = denormalize(num_l);
+        let rhs = denormalize(num_r);
 
-    match rhs.chars().fold(Ok(lhs), |from, digit| {
-        match from {
-            Ok(remaining) => {
-                let parts: Vec<&str> = remaining.splitn(2, digit).collect();
-                if parts.len() == 2 {
-                    Ok(parts.join(""))
-                } else {
-                    match borrow(remaining.as_ref(), digit) {
-                        Ok(expanded) => {
-                            borrow(remaining.as_ref(), digit).unwrap();
-                            let expanded_parts: Vec<&str> = expanded.splitn(2, digit).collect();
-                            Ok(expanded_parts.join(""))
-                        },
-                        Err(_) => {
-                            Err("Could not borrow a letter")
+        match rhs.chars().fold(Ok(lhs), |from, digit| {
+            match from {
+                Ok(remaining) => {
+                    let parts: Vec<&str> = remaining.splitn(2, digit).collect();
+                    if parts.len() == 2 {
+                        Ok(parts.join(""))
+                    } else {
+                        match borrow(remaining.as_ref(), digit) {
+                            Ok(expanded) => {
+                                borrow(remaining.as_ref(), digit).unwrap();
+                                let expanded_parts: Vec<&str> = expanded.splitn(2, digit).collect();
+                                Ok(expanded_parts.join(""))
+                            },
+                            Err(_) => {
+                                Err("Could not borrow a letter".into())
+                            }
                         }
                     }
+                },
+                Err(e) => {
+                    Err(e)
                 }
-            },
-            Err(e) => {
-                Err(e)
             }
+        }) {
+            Ok(denorm) => { Ok(normalize(&denorm).unwrap()) },
+            Err(e) => { Err(e) }
         }
-    }) {
-        Ok(denorm) => { Ok(normalize(&denorm).unwrap()) },
-        Err(e) => { Err(e) }
     }
 }
 
@@ -92,5 +99,15 @@ mod tests {
     #[test]
     fn sub_m_i_fully_borrow_from_m() {
         assert_eq!("CMXCIX", sub("M", "I").unwrap());
+    }
+
+    #[test]
+    fn sub_fails_when_lhs_is_invalid() {
+        assert!(sub("IJ", "I").is_err());
+    }
+
+    #[test]
+    fn sub_fails_when_rhs_is_invalid() {
+        assert!(sub("MM", "IM").is_err());
     }
 }

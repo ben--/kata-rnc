@@ -108,3 +108,19 @@ static void _test(const char *expected, const char *l, const char *r) {
     actual_ret = rnc_add(out, sizeof(out), "I", "MMMCMXCIXI");
 
     ck_assert_int_ne(0, actual_ret);
+
+# test validates_lhs_numeral
+    int actual_ret;
+    char out[32];
+
+    actual_ret = rnc_add(out, sizeof(out), "J", "I");
+
+    ck_assert_int_ne(0, actual_ret);
+
+# test validates_rhs_numeral
+    int actual_ret;
+    char out[32];
+
+    actual_ret = rnc_add(out, sizeof(out), "I", "i");
+
+    ck_assert_int_ne(0, actual_ret);

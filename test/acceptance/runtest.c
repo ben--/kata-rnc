@@ -92,8 +92,8 @@ int main(int argc, char **argv)
     tests++; errs += _add("XCIX", "II", "CI");
     tests++; errs += _add("CC", "CC", "CD");
     tests++; errs += _add("CDXCIX", "I", "D");
-    tests++; errs += _add("DCD", "C", "M");
-    tests++; errs += _add("DCDXCIX", "V", "MIV");
+    tests++; errs += _add("CM", "C", "M");
+    tests++; errs += _add("CMXCIX", "V", "MIV");
     tests++; errs += _add("DCCCXCIX", "X", "CMIX");
     tests++; errs += _add("MCMXC", "L", "MMXL");
     tests++; errs += _add("I", "MMMCMXCVIII", "MMMCMXCIX");
@@ -102,7 +102,8 @@ int main(int argc, char **argv)
 
     tests++; errs += _add_fail("I", "I", 2);
     tests++; errs += _add_fail("MCMXCIX", "MMCMXCIX", 32);
-    //tests++; errs += _add_fail("IL", "I", 32);
+    tests++; errs += _add_fail("J", "I", 32);
+    tests++; errs += _add_fail("IM", "I", 32);
 
     tests++; errs += _sub("II", "I", "I");
     tests++; errs += _sub("III", "I", "II");

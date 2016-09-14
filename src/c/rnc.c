@@ -101,7 +101,7 @@ static int _sub_digits(char *from, size_t from_len, char *digits) {
 
 int rnc_sub(char *diff, size_t diff_len, const char *num_l, const char *num_r)
 {
-    char buf_l[sizeof("MMMDCCCCLXXXXVIIIII")];
+    char buf_l[sizeof("MMMDCCCCLXXXXVIIII")];
     char buf_r[sizeof("MMMDCCCCLXXXXVIIII")];
 
     if (!rnc_valid(num_l)) return 1;

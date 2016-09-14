@@ -135,3 +135,18 @@ static void _invalid(const char *num) {
 
 #test d_is_valid
     _valid("D");
+
+#test dc_is_valid
+    _valid("DC");
+
+#test dcc_is_valid
+    _valid("DCC");
+
+#test dccc_is_valid
+    _valid("DCCC");
+
+#test cm_is_valid
+    _valid("CM");
+
+#test cmc_is_invalid
+    _invalid("CMC");

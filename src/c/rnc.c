@@ -211,7 +211,7 @@ int rnc_normalize(char *buf, size_t buflen)
 bool rnc_valid(const char *num)
 {
     regex_t re;
-    regcomp(&re, "^I(II?)?$", REG_EXTENDED | REG_NOSUB);
+    regcomp(&re, "^IV?(II?)?$", REG_EXTENDED | REG_NOSUB);
     int match = regexec(&re, num, 0, NULL, 0);
     regfree(&re);
     return match == 0;

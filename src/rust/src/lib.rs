@@ -23,6 +23,9 @@ pub use normalize::normalize;
 mod sub;
 pub use sub::sub;
 
+mod valid;
+pub use valid::valid;
+
 #[no_mangle]
 pub extern fn rnc_add(dst: *mut c_char, dstlen: size_t, raw_l: *const c_char, raw_r: *const c_char) -> c_int {
     let num_l;

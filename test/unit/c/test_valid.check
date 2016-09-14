@@ -156,3 +156,15 @@ static void _invalid(const char *num) {
 
 #test mc_is_valid
     _valid("MC");
+
+#test mm_is_valid
+    _valid("MM");
+
+#test mmm_is_valid
+    _valid("MMM");
+
+#test mmmcm_is_valid
+    _valid("MMMCM");
+
+#test mmmm_is_invalid
+    _invalid("MMMM");

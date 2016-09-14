@@ -103,6 +103,8 @@ int rnc_sub(char *diff, size_t diff_len, const char *num_l, const char *num_r)
 {
     char buf_l[sizeof("MMMDCCCCLXXXXVIIIII")];
     char buf_r[sizeof("MMMDCCCCLXXXXVIIII")];
+
+    if (!rnc_valid(num_l)) return 1;
     rnc_denormalize(buf_l, sizeof(buf_l), num_l);
     rnc_denormalize(buf_r, sizeof(buf_r), num_r);
 

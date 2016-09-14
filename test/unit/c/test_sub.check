@@ -46,10 +46,10 @@ static void _test_fail(const char *l, const char *r) {
     _test("M", "I", "CMXCIX");
 
 # test worst_case_rhs_expansion
-    _test("MMMM", "MMMCMXCIX", "I");
+    _test("MMMCMXCIX", "MMMCMXCVIII", "I");
 
 # test worst_case_lhs_expansion
-    _test("MMMM", "I", "MMMCMXCIX");
+    _test("MMMCMXCIX", "I", "MMMCMXCVIII");
 
 # test succeeds_with_barely_enough_space_without_overwriting
     int actual_ret;
@@ -69,3 +69,11 @@ static void _test_fail(const char *l, const char *r) {
 
     ck_assert_int_ne(0, actual_ret);
     ck_assert_str_eq("adad", actual_diff + 2);
+
+# test validates_lhs_argument
+    int actual_ret;
+    char actual_diff[] = { 'u', 'n', 'i', 't', 'i', 'a', 'l', 'i', 'z', 'e', 'd' };
+
+    actual_ret = rnc_sub(actual_diff, sizeof(actual_diff), "JI", "I");
+
+    ck_assert_int_ne(0, actual_ret);

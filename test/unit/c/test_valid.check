@@ -102,3 +102,15 @@ static void _invalid(const char *num) {
 
 # test lxxx_is_valid
     _valid("LXXX");
+
+# test xc_is_valid
+    _valid("XC");
+
+# test xcx_is_invalid
+    _invalid("XCX");
+
+# test c_is_valid
+    _valid("C");
+
+# test cx_is_valid
+    _valid("CX");

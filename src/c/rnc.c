@@ -106,6 +106,7 @@ int rnc_sub(char *diff, size_t diff_len, const char *num_l, const char *num_r)
 
     if (!rnc_valid(num_l)) return 1;
     rnc_denormalize(buf_l, sizeof(buf_l), num_l);
+    if (!rnc_valid(num_r)) return 1;
     rnc_denormalize(buf_r, sizeof(buf_r), num_r);
 
     if (0 != _sub_digits(buf_l, sizeof(buf_l), buf_r)) {

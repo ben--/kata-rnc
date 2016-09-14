@@ -77,3 +77,11 @@ static void _test_fail(const char *l, const char *r) {
     actual_ret = rnc_sub(actual_diff, sizeof(actual_diff), "JI", "I");
 
     ck_assert_int_ne(0, actual_ret);
+
+# test validates_rhs_argument
+    int actual_ret;
+    char actual_diff[] = { 'u', 'n', 'i', 't', 'i', 'a', 'l', 'i', 'z', 'e', 'd' };
+
+    actual_ret = rnc_sub(actual_diff, sizeof(actual_diff), "M", "c");
+
+    ck_assert_int_ne(0, actual_ret);

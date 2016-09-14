@@ -2,5 +2,25 @@
 
 # suite add
 
+static void _valid(const char *num) {
+    ck_assert(rnc_valid(num));
+}
+
+static void _invalid(const char *num) {
+    ck_assert(!rnc_valid(num));
+}
+
 # test i_is_valid
-    ck_assert(rnc_valid("I"));
+    _valid("I");
+
+# test lower_i_is_invaild
+    _invalid("i");
+
+# test j_is_not_valid
+    _invalid("J");
+
+# test prefix_characters_are_invalid
+    _invalid("iI");
+
+# test suffix_characters_are_invalid
+    _invalid("Ii");

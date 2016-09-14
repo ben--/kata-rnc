@@ -2,6 +2,7 @@
 
 #include "replace.h"
 
+#include <regex.h>
 #include <stdbool.h>
 #include <string.h>
 
@@ -209,6 +210,9 @@ int rnc_normalize(char *buf, size_t buflen)
 
 bool rnc_valid(const char *num)
 {
-    return true;
-    (void)num;
+    regex_t re;
+    regcomp(&re, "^I$", REG_EXTENDED | REG_NOSUB);
+    int match = regexec(&re, num, 0, NULL, 0);
+    regfree(&re);
+    return match == 0;
 }

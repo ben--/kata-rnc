@@ -75,6 +75,7 @@ $(VALGRIND_BINS:%=valgrind-%): valgrind-%: %
 	@# Needs to run from a read-write directory...
 	cd unit-test/c/valgrind && valgrind \
 	    --tool=memcheck \
+	    --leak-check=full \
 	    --trace-children=yes \
 	    --error-exitcode=1 \
 	    ./$(@F)
